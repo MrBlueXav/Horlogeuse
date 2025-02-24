@@ -1,0 +1,17 @@
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:72:9:BSP_IDD_Init	4
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:134:6:BSP_IDD_DeInit	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:146:6:BSP_IDD_Reset	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:158:6:BSP_IDD_LowPower	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:170:6:BSP_IDD_StartMeasure	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:183:6:BSP_IDD_Config	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:196:6:BSP_IDD_GetValue	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:208:6:BSP_IDD_EnableIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:220:6:BSP_IDD_ClearIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:232:9:BSP_IDD_GetITStatus	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:248:6:BSP_IDD_DisableIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:260:9:BSP_IDD_ErrorGetCode	4
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:291:6:BSP_IDD_ErrorEnableIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:303:6:BSP_IDD_ErrorClearIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:315:9:BSP_IDD_ErrorGetITStatus	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:331:6:BSP_IDD_ErrorDisableIT	2
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c:343:6:BSP_IDD_WakeUp	2
