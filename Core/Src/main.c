@@ -4,7 +4,10 @@
  * @file           : main.c
  * @brief          : Main program body
  ******************************************************************************
- * @attention
+ * @attention	Simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).
+ * Automatic standby mode when 30 s inactivity.
+ * Navigation with joystick to see / set time and date.
+ * Works with CR2032 battery.
  *
  * Copyright (c) 2025 Xavier Halgand & STMicroelectronics.
  * All rights reserved.
@@ -18,10 +21,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "i2c.h"
 #include "lcd.h"
-#include "quadspi.h"
-#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -78,8 +78,7 @@ typedef enum
 
 extern __IO uint8_t bLCDGlass_KeyPressed;
 
-const char *weekDay[] =
-{ "LUNDI", "MARDI", "MERCRE", "JEUDI", "VENDRE", "SAMEDI", "DIMAN" };
+const char *weekDay[] = { "LUNDI", "MARDI", "MERCRE", "JEUDI", "VENDRE", "SAMEDI", "DIMAN" }; // in french
 uint8_t weekDayNbr;
 RTC_TimeTypeDef theTime;
 RTC_TimeTypeDef binaryTime;
@@ -117,39 +116,36 @@ static uint8_t convert_BCD_to_ASCII(uint8_t bcd_data, BCDigit_TypeDef digit);
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
-	/* USER CODE BEGIN 1 */
+  /* USER CODE BEGIN 1 */
 
-	/* USER CODE END 1 */
+  /* USER CODE END 1 */
 
-	/* MCU Configuration--------------------------------------------------------*/
+  /* MCU Configuration--------------------------------------------------------*/
 
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-	/* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 
-	/* USER CODE END Init */
+  /* USER CODE END Init */
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* USER CODE BEGIN SysInit */
+  /* USER CODE BEGIN SysInit */
 
-	/* USER CODE END SysInit */
+  /* USER CODE END SysInit */
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_USART2_UART_Init();
-	MX_LCD_Init();
-	MX_QUADSPI_Init();
-	MX_I2C2_Init();
-	/* USER CODE BEGIN 2 */
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_LCD_Init();
+  /* USER CODE BEGIN 2 */
 
 	/*##--Configure minimum hardware resources at boot ########################*/
 	SystemHardwareInit();
@@ -194,12 +190,11 @@ int main(void)
 
 	uint32_t time_counter = HAL_GetTick();
 	uint32_t time_counter2 = HAL_GetTick();
-	inactivity_time = 0;
+	inactivity_time = 0; // increased in systick interrupt handler (stm....it.c)
 
 	uint8_t bufSec[2];
 	uint8_t bufMin[2];
 	uint8_t bufHour[2];
-	//uint8_t bufWeekday[1];
 	uint8_t bufDate[2];
 	uint8_t bufMonth[2];
 	uint8_t bufYear[2];
@@ -473,77 +468,77 @@ int main(void)
 	// 3) Enter The Standby Mode
 	HAL_PWR_EnterSTANDBYMode();
 
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	/**************************** Never reached **********************************/
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
 	while (1)
 	{
-		/* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-		/* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
 	}
 	/******************************************************************************/
-	/* USER CODE END 3 */
+  /* USER CODE END 3 */
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
-	RCC_OscInitTypeDef RCC_OscInitStruct =
-	{ 0 };
-	RCC_ClkInitTypeDef RCC_ClkInitStruct =
-	{ 0 };
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-	/** Configure the main internal regulator output voltage
-	 */
-	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  /** Configure the main internal regulator output voltage
+  */
+  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-	/** Configure LSE Drive Capability
-	 */
-	HAL_PWR_EnableBkUpAccess();
-	__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+  /** Configure LSE Drive Capability
+  */
+  HAL_PWR_EnableBkUpAccess();
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
-	/** Initializes the RCC Oscillators according to the specified parameters
-	 * in the RCC_OscInitTypeDef structure.
-	 */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE | RCC_OSCILLATORTYPE_MSI;
-	RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-	RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-	RCC_OscInitStruct.MSICalibrationValue = 0;
-	RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_7;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE|RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  RCC_OscInitStruct.MSICalibrationValue = 0;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_7;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-	/** Initializes the CPU, AHB and APB buses clocks
-	 */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
-	/** Enables the Clock Security System
-	 */
-	HAL_RCCEx_EnableLSECSS();
+  /** Enables the Clock Security System
+  */
+  HAL_RCCEx_EnableLSECSS();
 
-	/** Enable MSI Auto calibration
-	 */
-	HAL_RCCEx_EnableMSIPLLMode();
+  /** Enable MSI Auto calibration
+  */
+  HAL_RCCEx_EnableMSIPLLMode();
 }
 
 /* USER CODE BEGIN 4 */
@@ -554,7 +549,6 @@ void SystemClock_Config(void)
  */
 void SystemHardwareInit(void)
 {
-	GPIO_InitTypeDef GPIO_InitStruct;
 
 	/* Init LED4 and LED5  */
 	if (LedInitialized != SET)
@@ -575,24 +569,6 @@ void SystemHardwareInit(void)
 		BSP_LCD_GLASS_Init();
 		LcdInitialized = SET;
 	}
-
-	/* Configure the GPIOs for MFX */
-	/* Enable GPIO clock */
-	DISCOVERY_I2C2_SDA_GPIO_CLK_ENABLE();
-	DISCOVERY_I2C2_SCL_GPIO_CLK_ENABLE();
-
-	/* Configure I2C Rx/Tx as alternate function  */
-	GPIO_InitStruct.Pin = DISCOVERY_I2C2_SCL_PIN | DISCOVERY_I2C2_SDA_PIN;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Alternate = DISCOVERY_I2C2_SCL_SDA_AF;
-	HAL_GPIO_Init(DISCOVERY_I2C2_SCL_GPIO_PORT, &GPIO_InitStruct);
-
-	/* Configure the Discovery I2C2 peripheral for MFX */
-	/* Enable Discovery_I2C2 clock */
-	DISCOVERY_I2C2_CLK_ENABLE();
-
 	/* Enable PWR clock */
 	__HAL_RCC_PWR_CLK_ENABLE();
 }
@@ -625,7 +601,7 @@ void SystemHardwareDeInit(void)
 		LcdInitialized = RESET;
 	}
 
-	BSP_QSPI_DeInit();
+	//BSP_QSPI_DeInit();
 	//BSP_GYRO_DeInit();
 
 	/* LSE off in all modes */
@@ -648,7 +624,7 @@ void SystemHardwareDeInit(void)
 	HAL_PWREx_DisablePullUpPullDownConfig();
 
 	/* Configure MFX I2C Rx/Tx as Analog floating during IDD */
-	HAL_GPIO_DeInit(DISCOVERY_I2C2_SCL_GPIO_PORT, (DISCOVERY_I2C2_SCL_PIN | DISCOVERY_I2C2_SDA_PIN)); /* No STOP2 after FW upgrade */
+	//HAL_GPIO_DeInit(DISCOVERY_I2C2_SCL_GPIO_PORT, (DISCOVERY_I2C2_SCL_PIN | DISCOVERY_I2C2_SDA_PIN)); /* No STOP2 after FW upgrade */
 
 	__HAL_RCC_FLASH_CLK_DISABLE();
 	__HAL_RCC_SYSCFG_CLK_DISABLE();
@@ -770,7 +746,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 				AppStatus = STATE_DISPLAY_TIME;
 				break;
 			}
-
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
@@ -830,9 +805,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 				AppStatus = STATE_SET_MINS;
 				break;
 			}
-
 			break;
 
+			/*-------------------------------------------------------------------------------------*/
 		case STATE_SET_DAY_NBR:
 
 			switch (GPIO_Pin)
@@ -966,20 +941,16 @@ static void Display_First_Start_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *HORLOGEUSE*", 1,
-	SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *HORLOGEUSE*", 1,	SCROLL_SPEED_MEDIUM);
 	HAL_Delay(50);
 	BSP_LCD_GLASS_Clear();
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     PAR XAVIER HALGAND 2025", 1,
-	SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_Clear();
-	HAL_Delay(50);
-
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     PAR XAVIER HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     METTRE A L HEURE SVP", 1, SCROLL_SPEED_MEDIUM);
 	BSP_LCD_GLASS_Clear();
 }
 
 /**
- * @brief  Display first start messages
+ * @brief  Display wake up message
  * @retval None
  */
 static void Display_WakeUp_msg(void)
@@ -988,12 +959,16 @@ static void Display_WakeUp_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1,
-	SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
 	HAL_Delay(50);
 	BSP_LCD_GLASS_Clear();
 }
 
+/**
+ * @brief  Converts a 4 bit BCD (upper or lower in a byte) into ASCII code
+ * @param	digit : must be MSBCDIGIT or LSBCDIGIT (most significant BCD or less significant)
+ * @retval ASCII code
+ */
 uint8_t convert_BCD_to_ASCII(uint8_t bcd_data, BCDigit_TypeDef digit)
 {
 	if (digit == MSBCDIGIT)
@@ -1011,18 +986,18 @@ uint8_t convert_BCD_to_ASCII(uint8_t bcd_data, BCDigit_TypeDef digit)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
-	/* USER CODE BEGIN Error_Handler_Debug */
+  /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-	/* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT

@@ -39,11 +39,21 @@
      PE6   ------> SAI1_SD_A
      PE7   ------> SAI1_SD_B
      PE9   ------> SAI1_FS_B
+     PE10   ------> QUADSPI_CLK
+     PE11   ------> QUADSPI_NCS
+     PE12   ------> QUADSPI_BK1_IO0
+     PE13   ------> QUADSPI_BK1_IO1
+     PE14   ------> QUADSPI_BK1_IO2
+     PE15   ------> QUADSPI_BK1_IO3
+     PB10   ------> I2C2_SCL
+     PB11   ------> I2C2_SDA
      PA11   ------> USB_OTG_FS_DM
      PA12   ------> USB_OTG_FS_DP
      PD1   ------> SPI2_SCK
      PD3   ------> SPI2_MISO
      PD4   ------> SPI2_MOSI
+     PD5   ------> USART2_TX
+     PD6   ------> USART2_RX
      PB6   ------> I2C1_SCL
      PB7   ------> I2C1_SDA
 */
@@ -138,6 +148,24 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF13_SAI1;
   HAL_GPIO_Init(AUDIO_CLK_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : QSPI_CLK_Pin QSPI_CS_Pin QSPI_D0_Pin QSPI_D1_Pin
+                           QSPI_D2_Pin QSPI_D3_Pin */
+  GPIO_InitStruct.Pin = QSPI_CLK_Pin|QSPI_CS_Pin|QSPI_D0_Pin|QSPI_D1_Pin
+                          |QSPI_D2_Pin|QSPI_D3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : MFX_I2C_SLC_Pin MFX_I2C_SDA_Pin */
+  GPIO_InitStruct.Pin = MFX_I2C_SLC_Pin|MFX_I2C_SDA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C2;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : OTG_FS_PowerSwitchOn_Pin OTG_FS_VBUS_Pin */
   GPIO_InitStruct.Pin = OTG_FS_PowerSwitchOn_Pin|OTG_FS_VBUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -177,6 +205,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : USART_TX_Pin USART_RX_Pin */
+  GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pin : GYRO_CS_Pin */

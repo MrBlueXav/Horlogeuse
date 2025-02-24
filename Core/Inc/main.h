@@ -37,11 +37,8 @@ extern "C" {
 #include "string.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l476g_discovery.h"
-//#include "stm32l476g_discovery_gyroscope.h"
-#include "stm32l476g_discovery_idd.h"
 #include "stm32l476g_discovery_glass_lcd.h"
-//#include "stm32l476g_discovery_audio.h"
-#include "stm32l476g_discovery_qspi.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
