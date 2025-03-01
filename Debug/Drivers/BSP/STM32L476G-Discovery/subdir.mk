@@ -1,26 +1,20 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.c \
-../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.c \
-../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.c \
-../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.c 
+../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.c 
 
 OBJS += \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.o \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.o 
+./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o 
 
 C_DEPS += \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.d \
-./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.d 
+./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -30,7 +24,7 @@ Drivers/BSP/STM32L476G-Discovery/%.o Drivers/BSP/STM32L476G-Discovery/%.su Drive
 clean: clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery
 
 clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery:
-	-$(RM) ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_idd.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_qspi.su
+	-$(RM) ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.su
 
 .PHONY: clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery
 
