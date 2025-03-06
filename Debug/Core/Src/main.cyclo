@@ -1,6 +1,0 @@
-../Core/Src/main.c:82:5:main	5
-../Core/Src/main.c:187:6:SystemClock_Config	4
-../Core/Src/main.c:244:6:SystemHardwareInit	3
-../Core/Src/main.c:274:6:SystemHardwareDeInit	6
-../Core/Src/main.c:341:6:HAL_GPIO_EXTI_Callback	1
-../Core/Src/main.c:352:6:Error_Handler	1
