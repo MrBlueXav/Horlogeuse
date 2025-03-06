@@ -1,6 +1,8 @@
 /*
  * application.c
  *
+ * 		L'HORLOGEUSE L476
+ *
  *  Created on: Mar 1, 2025
  *      Author: Xavier Halgand
  */
@@ -297,7 +299,7 @@ void application(void)
  * @param GPIO_Pin: Specifies the pins connected EXTI line
  * @retval None
  */
-void application_EXTI_callback(uint16_t GPIO_Pin)
+void application_JOY_callback(uint16_t GPIO_Pin)
 {
 
 	inactivity_time = 0;

@@ -4,7 +4,10 @@
  * @file           : main.c
  * @brief          : Main program body
  ******************************************************************************
- * @attention	Simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).
+ *
+ * @attention		L'HORLOGEUSE L476
+ *
+ * This is a simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).
  * Automatic standby mode when 30 s inactivity.
  * Navigation with joystick to display / set time and date.
  * Works with CR2032 battery.
@@ -37,7 +40,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MAX_INACTIVITY_TIME		30000
+#define MAX_INACTIVITY_TIME		15000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -110,11 +113,11 @@ int main(void)
 	/*##--Configure minimum hardware resources at boot ########################*/
 	SystemHardwareInit();
 
-	BSP_LED_On(LED4);
-	BSP_LED_On(LED5);
+	BSP_LED_On(LED_RED);
+	BSP_LED_On(LED_GREEN);
 	HAL_Delay(500);
-	BSP_LED_Off(LED4);
-	BSP_LED_Off(LED5);
+	BSP_LED_Off(LED_RED);
+	BSP_LED_Off(LED_GREEN);
 
 	/***********************************************************************************/
 
@@ -340,7 +343,7 @@ void SystemHardwareDeInit(void)
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	application_EXTI_callback(GPIO_Pin);
+	application_JOY_callback(GPIO_Pin);
 }
 
 /* USER CODE END 4 */

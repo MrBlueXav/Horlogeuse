@@ -39,9 +39,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   0000e770  00000000  00000000  0003e1c5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000f0646  00000000  00000000  0004c935  2**0
+ 18 .debug_str    000f0645  00000000  00000000  0004c935  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0013cf7b  2**0
+ 19 .comment      00000043  00000000  00000000  0013cf7a  2**0
                   CONTENTS, READONLY
  20 .debug_frame  000025fc  00000000  00000000  0013cfc0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1126,12 +1126,12 @@ void application(void)
  8000960:	20000000 	.word	0x20000000
  8000964:	20000004 	.word	0x20000004
 
-08000968 <application_EXTI_callback>:
+08000968 <application_JOY_callback>:
  * @brief Application EXTI line detection callback : manages transitions between application states and small actions.
  * @param GPIO_Pin: Specifies the pins connected EXTI line
  * @retval None
  */
-void application_EXTI_callback(uint16_t GPIO_Pin)
+void application_JOY_callback(uint16_t GPIO_Pin)
 {
  8000968:	b580      	push	{r7, lr}
  800096a:	b082      	sub	sp, #8
@@ -1140,11 +1140,11 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000970:	80fb      	strh	r3, [r7, #6]
 
 	inactivity_time = 0;
- 8000972:	4bb0      	ldr	r3, [pc, #704]	@ (8000c34 <application_EXTI_callback+0x2cc>)
+ 8000972:	4bb0      	ldr	r3, [pc, #704]	@ (8000c34 <application_JOY_callback+0x2cc>)
  8000974:	2200      	movs	r2, #0
  8000976:	601a      	str	r2, [r3, #0]
 	displayMustBeUpdated = true;
- 8000978:	4baf      	ldr	r3, [pc, #700]	@ (8000c38 <application_EXTI_callback+0x2d0>)
+ 8000978:	4baf      	ldr	r3, [pc, #700]	@ (8000c38 <application_JOY_callback+0x2d0>)
  800097a:	2201      	movs	r2, #1
  800097c:	701a      	strb	r2, [r3, #0]
 
@@ -1152,14 +1152,14 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  800097e:	88fb      	ldrh	r3, [r7, #6]
  8000980:	f003 032f 	and.w	r3, r3, #47	@ 0x2f
  8000984:	2b00      	cmp	r3, #0
- 8000986:	f000 83a6 	beq.w	80010d6 <application_EXTI_callback+0x76e>
+ 8000986:	f000 83a6 	beq.w	80010d6 <application_JOY_callback+0x76e>
 	{
 		switch (AppStatus)
- 800098a:	4bac      	ldr	r3, [pc, #688]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 800098a:	4bac      	ldr	r3, [pc, #688]	@ (8000c3c <application_JOY_callback+0x2d4>)
  800098c:	681b      	ldr	r3, [r3, #0]
  800098e:	2b0f      	cmp	r3, #15
- 8000990:	f200 83a1 	bhi.w	80010d6 <application_EXTI_callback+0x76e>
- 8000994:	a201      	add	r2, pc, #4	@ (adr r2, 800099c <application_EXTI_callback+0x34>)
+ 8000990:	f200 83a1 	bhi.w	80010d6 <application_JOY_callback+0x76e>
+ 8000994:	a201      	add	r2, pc, #4	@ (adr r2, 800099c <application_JOY_callback+0x34>)
  8000996:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  800099a:	bf00      	nop
  800099c:	080009dd 	.word	0x080009dd
@@ -1183,51 +1183,51 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 		case STATE_START:
 
 			bLCDGlass_KeyPressed = 0x01; // to skip scrolling messages at start
- 80009dc:	4b98      	ldr	r3, [pc, #608]	@ (8000c40 <application_EXTI_callback+0x2d8>)
+ 80009dc:	4b98      	ldr	r3, [pc, #608]	@ (8000c40 <application_JOY_callback+0x2d8>)
  80009de:	2201      	movs	r2, #1
  80009e0:	701a      	strb	r2, [r3, #0]
 			break;
- 80009e2:	e378      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80009e2:	e378      	b.n	80010d6 <application_JOY_callback+0x76e>
 
 		case STATE_DISPLAY_TIME:
 
 			switch (GPIO_Pin)
  80009e4:	88fb      	ldrh	r3, [r7, #6]
  80009e6:	2b20      	cmp	r3, #32
- 80009e8:	d007      	beq.n	80009fa <application_EXTI_callback+0x92>
+ 80009e8:	d007      	beq.n	80009fa <application_JOY_callback+0x92>
  80009ea:	2b20      	cmp	r3, #32
- 80009ec:	f300 8360 	bgt.w	80010b0 <application_EXTI_callback+0x748>
+ 80009ec:	f300 8360 	bgt.w	80010b0 <application_JOY_callback+0x748>
  80009f0:	2b04      	cmp	r3, #4
- 80009f2:	d00a      	beq.n	8000a0a <application_EXTI_callback+0xa2>
+ 80009f2:	d00a      	beq.n	8000a0a <application_JOY_callback+0xa2>
  80009f4:	2b08      	cmp	r3, #8
- 80009f6:	d004      	beq.n	8000a02 <application_EXTI_callback+0x9a>
+ 80009f6:	d004      	beq.n	8000a02 <application_JOY_callback+0x9a>
 
 			case RIGHT_JOY_PIN:
 				AppStatus = STATE_GET_TIME;
 				break;
 			}
 			break;
- 80009f8:	e35a      	b.n	80010b0 <application_EXTI_callback+0x748>
+ 80009f8:	e35a      	b.n	80010b0 <application_JOY_callback+0x748>
 				AppStatus = STATE_DISPLAY_DATE;
- 80009fa:	4b90      	ldr	r3, [pc, #576]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 80009fa:	4b90      	ldr	r3, [pc, #576]	@ (8000c3c <application_JOY_callback+0x2d4>)
  80009fc:	2202      	movs	r2, #2
  80009fe:	601a      	str	r2, [r3, #0]
 				break;
- 8000a00:	e007      	b.n	8000a12 <application_EXTI_callback+0xaa>
+ 8000a00:	e007      	b.n	8000a12 <application_JOY_callback+0xaa>
 				AppStatus = STATE_DISPLAY_DAY;
- 8000a02:	4b8e      	ldr	r3, [pc, #568]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a02:	4b8e      	ldr	r3, [pc, #568]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a04:	2203      	movs	r2, #3
  8000a06:	601a      	str	r2, [r3, #0]
 				break;
- 8000a08:	e003      	b.n	8000a12 <application_EXTI_callback+0xaa>
+ 8000a08:	e003      	b.n	8000a12 <application_JOY_callback+0xaa>
 				AppStatus = STATE_GET_TIME;
- 8000a0a:	4b8c      	ldr	r3, [pc, #560]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a0a:	4b8c      	ldr	r3, [pc, #560]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a0c:	2207      	movs	r2, #7
  8000a0e:	601a      	str	r2, [r3, #0]
 				break;
  8000a10:	bf00      	nop
 			break;
- 8000a12:	e34d      	b.n	80010b0 <application_EXTI_callback+0x748>
+ 8000a12:	e34d      	b.n	80010b0 <application_JOY_callback+0x748>
 
 			/*-------------------------------------------------------------------------------------*/
 
@@ -1236,40 +1236,40 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			switch (GPIO_Pin)
  8000a14:	88fb      	ldrh	r3, [r7, #6]
  8000a16:	2b20      	cmp	r3, #32
- 8000a18:	d007      	beq.n	8000a2a <application_EXTI_callback+0xc2>
+ 8000a18:	d007      	beq.n	8000a2a <application_JOY_callback+0xc2>
  8000a1a:	2b20      	cmp	r3, #32
- 8000a1c:	f300 834a 	bgt.w	80010b4 <application_EXTI_callback+0x74c>
+ 8000a1c:	f300 834a 	bgt.w	80010b4 <application_JOY_callback+0x74c>
  8000a20:	2b04      	cmp	r3, #4
- 8000a22:	d00a      	beq.n	8000a3a <application_EXTI_callback+0xd2>
+ 8000a22:	d00a      	beq.n	8000a3a <application_JOY_callback+0xd2>
  8000a24:	2b08      	cmp	r3, #8
- 8000a26:	d004      	beq.n	8000a32 <application_EXTI_callback+0xca>
+ 8000a26:	d004      	beq.n	8000a32 <application_JOY_callback+0xca>
 
 			case RIGHT_JOY_PIN:
 				AppStatus = STATE_GET_DATE;
 				break;
 			}
 			break;
- 8000a28:	e344      	b.n	80010b4 <application_EXTI_callback+0x74c>
+ 8000a28:	e344      	b.n	80010b4 <application_JOY_callback+0x74c>
 				AppStatus = STATE_DISPLAY_DAY;
- 8000a2a:	4b84      	ldr	r3, [pc, #528]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a2a:	4b84      	ldr	r3, [pc, #528]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a2c:	2203      	movs	r2, #3
  8000a2e:	601a      	str	r2, [r3, #0]
 				break;
- 8000a30:	e007      	b.n	8000a42 <application_EXTI_callback+0xda>
+ 8000a30:	e007      	b.n	8000a42 <application_JOY_callback+0xda>
 				AppStatus = STATE_DISPLAY_TIME;
- 8000a32:	4b82      	ldr	r3, [pc, #520]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a32:	4b82      	ldr	r3, [pc, #520]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a34:	2201      	movs	r2, #1
  8000a36:	601a      	str	r2, [r3, #0]
 				break;
- 8000a38:	e003      	b.n	8000a42 <application_EXTI_callback+0xda>
+ 8000a38:	e003      	b.n	8000a42 <application_JOY_callback+0xda>
 				AppStatus = STATE_GET_DATE;
- 8000a3a:	4b80      	ldr	r3, [pc, #512]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a3a:	4b80      	ldr	r3, [pc, #512]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a3c:	220c      	movs	r2, #12
  8000a3e:	601a      	str	r2, [r3, #0]
 				break;
  8000a40:	bf00      	nop
 			break;
- 8000a42:	e337      	b.n	80010b4 <application_EXTI_callback+0x74c>
+ 8000a42:	e337      	b.n	80010b4 <application_JOY_callback+0x74c>
 
 			/*-------------------------------------------------------------------------------------*/
 
@@ -1278,40 +1278,40 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			switch (GPIO_Pin)
  8000a44:	88fb      	ldrh	r3, [r7, #6]
  8000a46:	2b20      	cmp	r3, #32
- 8000a48:	d007      	beq.n	8000a5a <application_EXTI_callback+0xf2>
+ 8000a48:	d007      	beq.n	8000a5a <application_JOY_callback+0xf2>
  8000a4a:	2b20      	cmp	r3, #32
- 8000a4c:	f300 8334 	bgt.w	80010b8 <application_EXTI_callback+0x750>
+ 8000a4c:	f300 8334 	bgt.w	80010b8 <application_JOY_callback+0x750>
  8000a50:	2b04      	cmp	r3, #4
- 8000a52:	d00a      	beq.n	8000a6a <application_EXTI_callback+0x102>
+ 8000a52:	d00a      	beq.n	8000a6a <application_JOY_callback+0x102>
  8000a54:	2b08      	cmp	r3, #8
- 8000a56:	d004      	beq.n	8000a62 <application_EXTI_callback+0xfa>
+ 8000a56:	d004      	beq.n	8000a62 <application_JOY_callback+0xfa>
 
 			case RIGHT_JOY_PIN:
 				AppStatus = STATE_GET_DAY;
 				break;
 			}
 			break;
- 8000a58:	e32e      	b.n	80010b8 <application_EXTI_callback+0x750>
+ 8000a58:	e32e      	b.n	80010b8 <application_JOY_callback+0x750>
 				AppStatus = STATE_DISPLAY_TIME;
- 8000a5a:	4b78      	ldr	r3, [pc, #480]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a5a:	4b78      	ldr	r3, [pc, #480]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a5c:	2201      	movs	r2, #1
  8000a5e:	601a      	str	r2, [r3, #0]
 				break;
- 8000a60:	e007      	b.n	8000a72 <application_EXTI_callback+0x10a>
+ 8000a60:	e007      	b.n	8000a72 <application_JOY_callback+0x10a>
 				AppStatus = STATE_DISPLAY_DATE;
- 8000a62:	4b76      	ldr	r3, [pc, #472]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a62:	4b76      	ldr	r3, [pc, #472]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a64:	2202      	movs	r2, #2
  8000a66:	601a      	str	r2, [r3, #0]
 				break;
- 8000a68:	e003      	b.n	8000a72 <application_EXTI_callback+0x10a>
+ 8000a68:	e003      	b.n	8000a72 <application_JOY_callback+0x10a>
 				AppStatus = STATE_GET_DAY;
- 8000a6a:	4b74      	ldr	r3, [pc, #464]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000a6a:	4b74      	ldr	r3, [pc, #464]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000a6c:	2204      	movs	r2, #4
  8000a6e:	601a      	str	r2, [r3, #0]
 				break;
  8000a70:	bf00      	nop
 			break;
- 8000a72:	e321      	b.n	80010b8 <application_EXTI_callback+0x750>
+ 8000a72:	e321      	b.n	80010b8 <application_JOY_callback+0x750>
 
 			/*-------------------------------------------------------------------------------------*/
 
@@ -1321,8 +1321,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000a74:	88fb      	ldrh	r3, [r7, #6]
  8000a76:	3b02      	subs	r3, #2
  8000a78:	2b1e      	cmp	r3, #30
- 8000a7a:	f200 831f 	bhi.w	80010bc <application_EXTI_callback+0x754>
- 8000a7e:	a201      	add	r2, pc, #4	@ (adr r2, 8000a84 <application_EXTI_callback+0x11c>)
+ 8000a7a:	f200 831f 	bhi.w	80010bc <application_JOY_callback+0x754>
+ 8000a7e:	a201      	add	r2, pc, #4	@ (adr r2, 8000a84 <application_JOY_callback+0x11c>)
  8000a80:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000a84:	08000b45 	.word	0x08000b45
  8000a88:	080010bd 	.word	0x080010bd
@@ -1358,59 +1358,59 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryTime.Hours > 0)
- 8000b00:	4b50      	ldr	r3, [pc, #320]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b00:	4b50      	ldr	r3, [pc, #320]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b02:	781b      	ldrb	r3, [r3, #0]
  8000b04:	2b00      	cmp	r3, #0
- 8000b06:	d006      	beq.n	8000b16 <application_EXTI_callback+0x1ae>
+ 8000b06:	d006      	beq.n	8000b16 <application_JOY_callback+0x1ae>
 					binaryTime.Hours--;
- 8000b08:	4b4e      	ldr	r3, [pc, #312]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b08:	4b4e      	ldr	r3, [pc, #312]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b0a:	781b      	ldrb	r3, [r3, #0]
  8000b0c:	3b01      	subs	r3, #1
  8000b0e:	b2da      	uxtb	r2, r3
- 8000b10:	4b4c      	ldr	r3, [pc, #304]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b10:	4b4c      	ldr	r3, [pc, #304]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b12:	701a      	strb	r2, [r3, #0]
 				else
 					binaryTime.Hours = 23;
 				break;
- 8000b14:	e01f      	b.n	8000b56 <application_EXTI_callback+0x1ee>
+ 8000b14:	e01f      	b.n	8000b56 <application_JOY_callback+0x1ee>
 					binaryTime.Hours = 23;
- 8000b16:	4b4b      	ldr	r3, [pc, #300]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b16:	4b4b      	ldr	r3, [pc, #300]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b18:	2217      	movs	r2, #23
  8000b1a:	701a      	strb	r2, [r3, #0]
 				break;
- 8000b1c:	e01b      	b.n	8000b56 <application_EXTI_callback+0x1ee>
+ 8000b1c:	e01b      	b.n	8000b56 <application_JOY_callback+0x1ee>
 
 			case UP_JOY_PIN:
 				if (binaryTime.Hours < 23)
- 8000b1e:	4b49      	ldr	r3, [pc, #292]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b1e:	4b49      	ldr	r3, [pc, #292]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b20:	781b      	ldrb	r3, [r3, #0]
  8000b22:	2b16      	cmp	r3, #22
- 8000b24:	d806      	bhi.n	8000b34 <application_EXTI_callback+0x1cc>
+ 8000b24:	d806      	bhi.n	8000b34 <application_JOY_callback+0x1cc>
 					binaryTime.Hours++;
- 8000b26:	4b47      	ldr	r3, [pc, #284]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b26:	4b47      	ldr	r3, [pc, #284]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b28:	781b      	ldrb	r3, [r3, #0]
  8000b2a:	3301      	adds	r3, #1
  8000b2c:	b2da      	uxtb	r2, r3
- 8000b2e:	4b45      	ldr	r3, [pc, #276]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b2e:	4b45      	ldr	r3, [pc, #276]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b30:	701a      	strb	r2, [r3, #0]
 				else
 					binaryTime.Hours = 0;
 				break;
- 8000b32:	e010      	b.n	8000b56 <application_EXTI_callback+0x1ee>
+ 8000b32:	e010      	b.n	8000b56 <application_JOY_callback+0x1ee>
 					binaryTime.Hours = 0;
- 8000b34:	4b43      	ldr	r3, [pc, #268]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000b34:	4b43      	ldr	r3, [pc, #268]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000b36:	2200      	movs	r2, #0
  8000b38:	701a      	strb	r2, [r3, #0]
 				break;
- 8000b3a:	e00c      	b.n	8000b56 <application_EXTI_callback+0x1ee>
+ 8000b3a:	e00c      	b.n	8000b56 <application_JOY_callback+0x1ee>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SET_MINS;
- 8000b3c:	4b3f      	ldr	r3, [pc, #252]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000b3c:	4b3f      	ldr	r3, [pc, #252]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000b3e:	2209      	movs	r2, #9
  8000b40:	601a      	str	r2, [r3, #0]
 				break;
- 8000b42:	e008      	b.n	8000b56 <application_EXTI_callback+0x1ee>
+ 8000b42:	e008      	b.n	8000b56 <application_JOY_callback+0x1ee>
 
 			case LEFT_JOY_PIN: /* exit without saving new time */
 				BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
@@ -1418,14 +1418,14 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000b48:	2000      	movs	r0, #0
  8000b4a:	f001 f94d 	bl	8001de8 <BSP_LCD_GLASS_BlinkConfig>
 				AppStatus = STATE_DISPLAY_TIME;
- 8000b4e:	4b3b      	ldr	r3, [pc, #236]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000b4e:	4b3b      	ldr	r3, [pc, #236]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000b50:	2201      	movs	r2, #1
  8000b52:	601a      	str	r2, [r3, #0]
 				break;
  8000b54:	bf00      	nop
 			}
 			break;
- 8000b56:	e2b1      	b.n	80010bc <application_EXTI_callback+0x754>
+ 8000b56:	e2b1      	b.n	80010bc <application_JOY_callback+0x754>
 
 			/*-------------------------------------------------------------------------------------*/
 
@@ -1435,8 +1435,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000b58:	88fb      	ldrh	r3, [r7, #6]
  8000b5a:	3b02      	subs	r3, #2
  8000b5c:	2b1e      	cmp	r3, #30
- 8000b5e:	f200 82af 	bhi.w	80010c0 <application_EXTI_callback+0x758>
- 8000b62:	a201      	add	r2, pc, #4	@ (adr r2, 8000b68 <application_EXTI_callback+0x200>)
+ 8000b5e:	f200 82af 	bhi.w	80010c0 <application_JOY_callback+0x758>
+ 8000b62:	a201      	add	r2, pc, #4	@ (adr r2, 8000b68 <application_JOY_callback+0x200>)
  8000b64:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000b68:	08000c29 	.word	0x08000c29
  8000b6c:	080010c1 	.word	0x080010c1
@@ -1472,70 +1472,70 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryTime.Minutes > 0)
- 8000be4:	4b17      	ldr	r3, [pc, #92]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000be4:	4b17      	ldr	r3, [pc, #92]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000be6:	785b      	ldrb	r3, [r3, #1]
  8000be8:	2b00      	cmp	r3, #0
- 8000bea:	d006      	beq.n	8000bfa <application_EXTI_callback+0x292>
+ 8000bea:	d006      	beq.n	8000bfa <application_JOY_callback+0x292>
 					binaryTime.Minutes--;
- 8000bec:	4b15      	ldr	r3, [pc, #84]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000bec:	4b15      	ldr	r3, [pc, #84]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000bee:	785b      	ldrb	r3, [r3, #1]
  8000bf0:	3b01      	subs	r3, #1
  8000bf2:	b2da      	uxtb	r2, r3
- 8000bf4:	4b13      	ldr	r3, [pc, #76]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000bf4:	4b13      	ldr	r3, [pc, #76]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000bf6:	705a      	strb	r2, [r3, #1]
 				else
 					binaryTime.Minutes = 59;
 				break;
- 8000bf8:	e01a      	b.n	8000c30 <application_EXTI_callback+0x2c8>
+ 8000bf8:	e01a      	b.n	8000c30 <application_JOY_callback+0x2c8>
 					binaryTime.Minutes = 59;
- 8000bfa:	4b12      	ldr	r3, [pc, #72]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000bfa:	4b12      	ldr	r3, [pc, #72]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000bfc:	223b      	movs	r2, #59	@ 0x3b
  8000bfe:	705a      	strb	r2, [r3, #1]
 				break;
- 8000c00:	e016      	b.n	8000c30 <application_EXTI_callback+0x2c8>
+ 8000c00:	e016      	b.n	8000c30 <application_JOY_callback+0x2c8>
 
 			case UP_JOY_PIN:
 				if (binaryTime.Minutes < 59)
- 8000c02:	4b10      	ldr	r3, [pc, #64]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000c02:	4b10      	ldr	r3, [pc, #64]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000c04:	785b      	ldrb	r3, [r3, #1]
  8000c06:	2b3a      	cmp	r3, #58	@ 0x3a
- 8000c08:	d806      	bhi.n	8000c18 <application_EXTI_callback+0x2b0>
+ 8000c08:	d806      	bhi.n	8000c18 <application_JOY_callback+0x2b0>
 					binaryTime.Minutes++;
- 8000c0a:	4b0e      	ldr	r3, [pc, #56]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000c0a:	4b0e      	ldr	r3, [pc, #56]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000c0c:	785b      	ldrb	r3, [r3, #1]
  8000c0e:	3301      	adds	r3, #1
  8000c10:	b2da      	uxtb	r2, r3
- 8000c12:	4b0c      	ldr	r3, [pc, #48]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000c12:	4b0c      	ldr	r3, [pc, #48]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000c14:	705a      	strb	r2, [r3, #1]
 				else
 					binaryTime.Minutes = 0;
 				break;
- 8000c16:	e00b      	b.n	8000c30 <application_EXTI_callback+0x2c8>
+ 8000c16:	e00b      	b.n	8000c30 <application_JOY_callback+0x2c8>
 					binaryTime.Minutes = 0;
- 8000c18:	4b0a      	ldr	r3, [pc, #40]	@ (8000c44 <application_EXTI_callback+0x2dc>)
+ 8000c18:	4b0a      	ldr	r3, [pc, #40]	@ (8000c44 <application_JOY_callback+0x2dc>)
  8000c1a:	2200      	movs	r2, #0
  8000c1c:	705a      	strb	r2, [r3, #1]
 				break;
- 8000c1e:	e007      	b.n	8000c30 <application_EXTI_callback+0x2c8>
+ 8000c1e:	e007      	b.n	8000c30 <application_JOY_callback+0x2c8>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SET_SECS;
- 8000c20:	4b06      	ldr	r3, [pc, #24]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000c20:	4b06      	ldr	r3, [pc, #24]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000c22:	220a      	movs	r2, #10
  8000c24:	601a      	str	r2, [r3, #0]
 				break;
- 8000c26:	e003      	b.n	8000c30 <application_EXTI_callback+0x2c8>
+ 8000c26:	e003      	b.n	8000c30 <application_JOY_callback+0x2c8>
 
 			case LEFT_JOY_PIN: /* */
 				AppStatus = STATE_SET_HOURS;
- 8000c28:	4b04      	ldr	r3, [pc, #16]	@ (8000c3c <application_EXTI_callback+0x2d4>)
+ 8000c28:	4b04      	ldr	r3, [pc, #16]	@ (8000c3c <application_JOY_callback+0x2d4>)
  8000c2a:	2208      	movs	r2, #8
  8000c2c:	601a      	str	r2, [r3, #0]
 				break;
  8000c2e:	bf00      	nop
 			}
 			break;
- 8000c30:	e246      	b.n	80010c0 <application_EXTI_callback+0x758>
+ 8000c30:	e246      	b.n	80010c0 <application_JOY_callback+0x758>
  8000c32:	bf00      	nop
  8000c34:	200000c4 	.word	0x200000c4
  8000c38:	20000000 	.word	0x20000000
@@ -1550,8 +1550,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000c48:	88fb      	ldrh	r3, [r7, #6]
  8000c4a:	3b02      	subs	r3, #2
  8000c4c:	2b1e      	cmp	r3, #30
- 8000c4e:	f200 8239 	bhi.w	80010c4 <application_EXTI_callback+0x75c>
- 8000c52:	a201      	add	r2, pc, #4	@ (adr r2, 8000c58 <application_EXTI_callback+0x2f0>)
+ 8000c4e:	f200 8239 	bhi.w	80010c4 <application_JOY_callback+0x75c>
+ 8000c52:	a201      	add	r2, pc, #4	@ (adr r2, 8000c58 <application_JOY_callback+0x2f0>)
  8000c54:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000c58:	08000d19 	.word	0x08000d19
  8000c5c:	080010c5 	.word	0x080010c5
@@ -1587,70 +1587,70 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryTime.Seconds > 0)
- 8000cd4:	4bba      	ldr	r3, [pc, #744]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000cd4:	4bba      	ldr	r3, [pc, #744]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000cd6:	789b      	ldrb	r3, [r3, #2]
  8000cd8:	2b00      	cmp	r3, #0
- 8000cda:	d006      	beq.n	8000cea <application_EXTI_callback+0x382>
+ 8000cda:	d006      	beq.n	8000cea <application_JOY_callback+0x382>
 					binaryTime.Seconds--;
- 8000cdc:	4bb8      	ldr	r3, [pc, #736]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000cdc:	4bb8      	ldr	r3, [pc, #736]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000cde:	789b      	ldrb	r3, [r3, #2]
  8000ce0:	3b01      	subs	r3, #1
  8000ce2:	b2da      	uxtb	r2, r3
- 8000ce4:	4bb6      	ldr	r3, [pc, #728]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000ce4:	4bb6      	ldr	r3, [pc, #728]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000ce6:	709a      	strb	r2, [r3, #2]
 				else
 					binaryTime.Seconds = 59;
 				break;
- 8000ce8:	e01a      	b.n	8000d20 <application_EXTI_callback+0x3b8>
+ 8000ce8:	e01a      	b.n	8000d20 <application_JOY_callback+0x3b8>
 					binaryTime.Seconds = 59;
- 8000cea:	4bb5      	ldr	r3, [pc, #724]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000cea:	4bb5      	ldr	r3, [pc, #724]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000cec:	223b      	movs	r2, #59	@ 0x3b
  8000cee:	709a      	strb	r2, [r3, #2]
 				break;
- 8000cf0:	e016      	b.n	8000d20 <application_EXTI_callback+0x3b8>
+ 8000cf0:	e016      	b.n	8000d20 <application_JOY_callback+0x3b8>
 
 			case UP_JOY_PIN:
 				if (binaryTime.Seconds < 59)
- 8000cf2:	4bb3      	ldr	r3, [pc, #716]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000cf2:	4bb3      	ldr	r3, [pc, #716]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000cf4:	789b      	ldrb	r3, [r3, #2]
  8000cf6:	2b3a      	cmp	r3, #58	@ 0x3a
- 8000cf8:	d806      	bhi.n	8000d08 <application_EXTI_callback+0x3a0>
+ 8000cf8:	d806      	bhi.n	8000d08 <application_JOY_callback+0x3a0>
 					binaryTime.Seconds++;
- 8000cfa:	4bb1      	ldr	r3, [pc, #708]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000cfa:	4bb1      	ldr	r3, [pc, #708]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000cfc:	789b      	ldrb	r3, [r3, #2]
  8000cfe:	3301      	adds	r3, #1
  8000d00:	b2da      	uxtb	r2, r3
- 8000d02:	4baf      	ldr	r3, [pc, #700]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000d02:	4baf      	ldr	r3, [pc, #700]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000d04:	709a      	strb	r2, [r3, #2]
 				else
 					binaryTime.Seconds = 0;
 				break;
- 8000d06:	e00b      	b.n	8000d20 <application_EXTI_callback+0x3b8>
+ 8000d06:	e00b      	b.n	8000d20 <application_JOY_callback+0x3b8>
 					binaryTime.Seconds = 0;
- 8000d08:	4bad      	ldr	r3, [pc, #692]	@ (8000fc0 <application_EXTI_callback+0x658>)
+ 8000d08:	4bad      	ldr	r3, [pc, #692]	@ (8000fc0 <application_JOY_callback+0x658>)
  8000d0a:	2200      	movs	r2, #0
  8000d0c:	709a      	strb	r2, [r3, #2]
 				break;
- 8000d0e:	e007      	b.n	8000d20 <application_EXTI_callback+0x3b8>
+ 8000d0e:	e007      	b.n	8000d20 <application_JOY_callback+0x3b8>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SAVE_TIME;
- 8000d10:	4bac      	ldr	r3, [pc, #688]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000d10:	4bac      	ldr	r3, [pc, #688]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000d12:	220b      	movs	r2, #11
  8000d14:	601a      	str	r2, [r3, #0]
 				break;
- 8000d16:	e003      	b.n	8000d20 <application_EXTI_callback+0x3b8>
+ 8000d16:	e003      	b.n	8000d20 <application_JOY_callback+0x3b8>
 
 			case LEFT_JOY_PIN: /* */
 				AppStatus = STATE_SET_MINS;
- 8000d18:	4baa      	ldr	r3, [pc, #680]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000d18:	4baa      	ldr	r3, [pc, #680]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000d1a:	2209      	movs	r2, #9
  8000d1c:	601a      	str	r2, [r3, #0]
 				break;
  8000d1e:	bf00      	nop
 			}
 			break;
- 8000d20:	e1d0      	b.n	80010c4 <application_EXTI_callback+0x75c>
+ 8000d20:	e1d0      	b.n	80010c4 <application_JOY_callback+0x75c>
 
 			/*-------------------------------------------------------------------------------------*/
 		case STATE_SET_DAY_NBR:
@@ -1659,8 +1659,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000d22:	88fb      	ldrh	r3, [r7, #6]
  8000d24:	3b02      	subs	r3, #2
  8000d26:	2b1e      	cmp	r3, #30
- 8000d28:	f200 81ce 	bhi.w	80010c8 <application_EXTI_callback+0x760>
- 8000d2c:	a201      	add	r2, pc, #4	@ (adr r2, 8000d34 <application_EXTI_callback+0x3cc>)
+ 8000d28:	f200 81ce 	bhi.w	80010c8 <application_JOY_callback+0x760>
+ 8000d2c:	a201      	add	r2, pc, #4	@ (adr r2, 8000d34 <application_JOY_callback+0x3cc>)
  8000d2e:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000d32:	bf00      	nop
  8000d34:	08000df5 	.word	0x08000df5
@@ -1697,59 +1697,59 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryDate.Date > 1)
- 8000db0:	4b85      	ldr	r3, [pc, #532]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000db0:	4b85      	ldr	r3, [pc, #532]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000db2:	789b      	ldrb	r3, [r3, #2]
  8000db4:	2b01      	cmp	r3, #1
- 8000db6:	d906      	bls.n	8000dc6 <application_EXTI_callback+0x45e>
+ 8000db6:	d906      	bls.n	8000dc6 <application_JOY_callback+0x45e>
 					binaryDate.Date--;
- 8000db8:	4b83      	ldr	r3, [pc, #524]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000db8:	4b83      	ldr	r3, [pc, #524]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000dba:	789b      	ldrb	r3, [r3, #2]
  8000dbc:	3b01      	subs	r3, #1
  8000dbe:	b2da      	uxtb	r2, r3
- 8000dc0:	4b81      	ldr	r3, [pc, #516]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000dc0:	4b81      	ldr	r3, [pc, #516]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000dc2:	709a      	strb	r2, [r3, #2]
 				else
 					binaryDate.Date = 31;
 				break;
- 8000dc4:	e01f      	b.n	8000e06 <application_EXTI_callback+0x49e>
+ 8000dc4:	e01f      	b.n	8000e06 <application_JOY_callback+0x49e>
 					binaryDate.Date = 31;
- 8000dc6:	4b80      	ldr	r3, [pc, #512]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000dc6:	4b80      	ldr	r3, [pc, #512]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000dc8:	221f      	movs	r2, #31
  8000dca:	709a      	strb	r2, [r3, #2]
 				break;
- 8000dcc:	e01b      	b.n	8000e06 <application_EXTI_callback+0x49e>
+ 8000dcc:	e01b      	b.n	8000e06 <application_JOY_callback+0x49e>
 
 			case UP_JOY_PIN:
 				if (binaryDate.Date < 31)
- 8000dce:	4b7e      	ldr	r3, [pc, #504]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000dce:	4b7e      	ldr	r3, [pc, #504]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000dd0:	789b      	ldrb	r3, [r3, #2]
  8000dd2:	2b1e      	cmp	r3, #30
- 8000dd4:	d806      	bhi.n	8000de4 <application_EXTI_callback+0x47c>
+ 8000dd4:	d806      	bhi.n	8000de4 <application_JOY_callback+0x47c>
 					binaryDate.Date++;
- 8000dd6:	4b7c      	ldr	r3, [pc, #496]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000dd6:	4b7c      	ldr	r3, [pc, #496]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000dd8:	789b      	ldrb	r3, [r3, #2]
  8000dda:	3301      	adds	r3, #1
  8000ddc:	b2da      	uxtb	r2, r3
- 8000dde:	4b7a      	ldr	r3, [pc, #488]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000dde:	4b7a      	ldr	r3, [pc, #488]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000de0:	709a      	strb	r2, [r3, #2]
 				else
 					binaryDate.Date = 1;
 				break;
- 8000de2:	e010      	b.n	8000e06 <application_EXTI_callback+0x49e>
+ 8000de2:	e010      	b.n	8000e06 <application_JOY_callback+0x49e>
 					binaryDate.Date = 1;
- 8000de4:	4b78      	ldr	r3, [pc, #480]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000de4:	4b78      	ldr	r3, [pc, #480]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000de6:	2201      	movs	r2, #1
  8000de8:	709a      	strb	r2, [r3, #2]
 				break;
- 8000dea:	e00c      	b.n	8000e06 <application_EXTI_callback+0x49e>
+ 8000dea:	e00c      	b.n	8000e06 <application_JOY_callback+0x49e>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SET_MONTH;
- 8000dec:	4b75      	ldr	r3, [pc, #468]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000dec:	4b75      	ldr	r3, [pc, #468]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000dee:	220e      	movs	r2, #14
  8000df0:	601a      	str	r2, [r3, #0]
 				break;
- 8000df2:	e008      	b.n	8000e06 <application_EXTI_callback+0x49e>
+ 8000df2:	e008      	b.n	8000e06 <application_JOY_callback+0x49e>
 
 			case LEFT_JOY_PIN: /* exit without saving new date */
 				BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
@@ -1757,14 +1757,14 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000df8:	2000      	movs	r0, #0
  8000dfa:	f000 fff5 	bl	8001de8 <BSP_LCD_GLASS_BlinkConfig>
 				AppStatus = STATE_DISPLAY_DATE;
- 8000dfe:	4b71      	ldr	r3, [pc, #452]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000dfe:	4b71      	ldr	r3, [pc, #452]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000e00:	2202      	movs	r2, #2
  8000e02:	601a      	str	r2, [r3, #0]
 				break;
  8000e04:	bf00      	nop
 			}
 			break;
- 8000e06:	e15f      	b.n	80010c8 <application_EXTI_callback+0x760>
+ 8000e06:	e15f      	b.n	80010c8 <application_JOY_callback+0x760>
 
 			/*-------------------------------------------------------------------------------------*/
 		case STATE_SET_MONTH:
@@ -1773,8 +1773,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000e08:	88fb      	ldrh	r3, [r7, #6]
  8000e0a:	3b02      	subs	r3, #2
  8000e0c:	2b1e      	cmp	r3, #30
- 8000e0e:	f200 815d 	bhi.w	80010cc <application_EXTI_callback+0x764>
- 8000e12:	a201      	add	r2, pc, #4	@ (adr r2, 8000e18 <application_EXTI_callback+0x4b0>)
+ 8000e0e:	f200 815d 	bhi.w	80010cc <application_JOY_callback+0x764>
+ 8000e12:	a201      	add	r2, pc, #4	@ (adr r2, 8000e18 <application_JOY_callback+0x4b0>)
  8000e14:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000e18:	08000ed9 	.word	0x08000ed9
  8000e1c:	080010cd 	.word	0x080010cd
@@ -1810,71 +1810,71 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryDate.Month > 1)
- 8000e94:	4b4c      	ldr	r3, [pc, #304]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000e94:	4b4c      	ldr	r3, [pc, #304]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000e96:	785b      	ldrb	r3, [r3, #1]
  8000e98:	2b01      	cmp	r3, #1
- 8000e9a:	d906      	bls.n	8000eaa <application_EXTI_callback+0x542>
+ 8000e9a:	d906      	bls.n	8000eaa <application_JOY_callback+0x542>
 					binaryDate.Month--;
- 8000e9c:	4b4a      	ldr	r3, [pc, #296]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000e9c:	4b4a      	ldr	r3, [pc, #296]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000e9e:	785b      	ldrb	r3, [r3, #1]
  8000ea0:	3b01      	subs	r3, #1
  8000ea2:	b2da      	uxtb	r2, r3
- 8000ea4:	4b48      	ldr	r3, [pc, #288]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000ea4:	4b48      	ldr	r3, [pc, #288]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000ea6:	705a      	strb	r2, [r3, #1]
 				else
 					binaryDate.Month = 12;
 				break;
- 8000ea8:	e01a      	b.n	8000ee0 <application_EXTI_callback+0x578>
+ 8000ea8:	e01a      	b.n	8000ee0 <application_JOY_callback+0x578>
 					binaryDate.Month = 12;
- 8000eaa:	4b47      	ldr	r3, [pc, #284]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000eaa:	4b47      	ldr	r3, [pc, #284]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000eac:	220c      	movs	r2, #12
  8000eae:	705a      	strb	r2, [r3, #1]
 				break;
- 8000eb0:	e016      	b.n	8000ee0 <application_EXTI_callback+0x578>
+ 8000eb0:	e016      	b.n	8000ee0 <application_JOY_callback+0x578>
 
 			case UP_JOY_PIN:
 				if (binaryDate.Month < 12)
- 8000eb2:	4b45      	ldr	r3, [pc, #276]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000eb2:	4b45      	ldr	r3, [pc, #276]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000eb4:	785b      	ldrb	r3, [r3, #1]
  8000eb6:	2b0b      	cmp	r3, #11
- 8000eb8:	d806      	bhi.n	8000ec8 <application_EXTI_callback+0x560>
+ 8000eb8:	d806      	bhi.n	8000ec8 <application_JOY_callback+0x560>
 					binaryDate.Month++;
- 8000eba:	4b43      	ldr	r3, [pc, #268]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000eba:	4b43      	ldr	r3, [pc, #268]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000ebc:	785b      	ldrb	r3, [r3, #1]
  8000ebe:	3301      	adds	r3, #1
  8000ec0:	b2da      	uxtb	r2, r3
- 8000ec2:	4b41      	ldr	r3, [pc, #260]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000ec2:	4b41      	ldr	r3, [pc, #260]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000ec4:	705a      	strb	r2, [r3, #1]
 				else
 					binaryDate.Month = 1;
 				break;
- 8000ec6:	e00b      	b.n	8000ee0 <application_EXTI_callback+0x578>
+ 8000ec6:	e00b      	b.n	8000ee0 <application_JOY_callback+0x578>
 					binaryDate.Month = 1;
- 8000ec8:	4b3f      	ldr	r3, [pc, #252]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000ec8:	4b3f      	ldr	r3, [pc, #252]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000eca:	2201      	movs	r2, #1
  8000ecc:	705a      	strb	r2, [r3, #1]
 				break;
- 8000ece:	e007      	b.n	8000ee0 <application_EXTI_callback+0x578>
+ 8000ece:	e007      	b.n	8000ee0 <application_JOY_callback+0x578>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SET_YEAR;
- 8000ed0:	4b3c      	ldr	r3, [pc, #240]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000ed0:	4b3c      	ldr	r3, [pc, #240]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000ed2:	220f      	movs	r2, #15
  8000ed4:	601a      	str	r2, [r3, #0]
 				break;
- 8000ed6:	e003      	b.n	8000ee0 <application_EXTI_callback+0x578>
+ 8000ed6:	e003      	b.n	8000ee0 <application_JOY_callback+0x578>
 
 			case LEFT_JOY_PIN: /*  */
 				//BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
 				AppStatus = STATE_SET_DAY_NBR;
- 8000ed8:	4b3a      	ldr	r3, [pc, #232]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000ed8:	4b3a      	ldr	r3, [pc, #232]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000eda:	220d      	movs	r2, #13
  8000edc:	601a      	str	r2, [r3, #0]
 				break;
  8000ede:	bf00      	nop
 			}
 			break;
- 8000ee0:	e0f4      	b.n	80010cc <application_EXTI_callback+0x764>
+ 8000ee0:	e0f4      	b.n	80010cc <application_JOY_callback+0x764>
 
 			/*-------------------------------------------------------------------------------------*/
 		case STATE_SET_YEAR:
@@ -1883,8 +1883,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000ee2:	88fb      	ldrh	r3, [r7, #6]
  8000ee4:	3b02      	subs	r3, #2
  8000ee6:	2b1e      	cmp	r3, #30
- 8000ee8:	f200 80f2 	bhi.w	80010d0 <application_EXTI_callback+0x768>
- 8000eec:	a201      	add	r2, pc, #4	@ (adr r2, 8000ef4 <application_EXTI_callback+0x58c>)
+ 8000ee8:	f200 80f2 	bhi.w	80010d0 <application_JOY_callback+0x768>
+ 8000eec:	a201      	add	r2, pc, #4	@ (adr r2, 8000ef4 <application_JOY_callback+0x58c>)
  8000eee:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000ef2:	bf00      	nop
  8000ef4:	08000fb5 	.word	0x08000fb5
@@ -1921,71 +1921,71 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (binaryDate.Year > 0)
- 8000f70:	4b15      	ldr	r3, [pc, #84]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f70:	4b15      	ldr	r3, [pc, #84]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f72:	78db      	ldrb	r3, [r3, #3]
  8000f74:	2b00      	cmp	r3, #0
- 8000f76:	d006      	beq.n	8000f86 <application_EXTI_callback+0x61e>
+ 8000f76:	d006      	beq.n	8000f86 <application_JOY_callback+0x61e>
 					binaryDate.Year--;
- 8000f78:	4b13      	ldr	r3, [pc, #76]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f78:	4b13      	ldr	r3, [pc, #76]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f7a:	78db      	ldrb	r3, [r3, #3]
  8000f7c:	3b01      	subs	r3, #1
  8000f7e:	b2da      	uxtb	r2, r3
- 8000f80:	4b11      	ldr	r3, [pc, #68]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f80:	4b11      	ldr	r3, [pc, #68]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f82:	70da      	strb	r2, [r3, #3]
 				else
 					binaryDate.Year = 99;
 				break;
- 8000f84:	e01a      	b.n	8000fbc <application_EXTI_callback+0x654>
+ 8000f84:	e01a      	b.n	8000fbc <application_JOY_callback+0x654>
 					binaryDate.Year = 99;
- 8000f86:	4b10      	ldr	r3, [pc, #64]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f86:	4b10      	ldr	r3, [pc, #64]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f88:	2263      	movs	r2, #99	@ 0x63
  8000f8a:	70da      	strb	r2, [r3, #3]
 				break;
- 8000f8c:	e016      	b.n	8000fbc <application_EXTI_callback+0x654>
+ 8000f8c:	e016      	b.n	8000fbc <application_JOY_callback+0x654>
 
 			case UP_JOY_PIN:
 				if (binaryDate.Year < 99)
- 8000f8e:	4b0e      	ldr	r3, [pc, #56]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f8e:	4b0e      	ldr	r3, [pc, #56]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f90:	78db      	ldrb	r3, [r3, #3]
  8000f92:	2b62      	cmp	r3, #98	@ 0x62
- 8000f94:	d806      	bhi.n	8000fa4 <application_EXTI_callback+0x63c>
+ 8000f94:	d806      	bhi.n	8000fa4 <application_JOY_callback+0x63c>
 					binaryDate.Year++;
- 8000f96:	4b0c      	ldr	r3, [pc, #48]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f96:	4b0c      	ldr	r3, [pc, #48]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000f98:	78db      	ldrb	r3, [r3, #3]
  8000f9a:	3301      	adds	r3, #1
  8000f9c:	b2da      	uxtb	r2, r3
- 8000f9e:	4b0a      	ldr	r3, [pc, #40]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000f9e:	4b0a      	ldr	r3, [pc, #40]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000fa0:	70da      	strb	r2, [r3, #3]
 				else
 					binaryDate.Year = 0;
 				break;
- 8000fa2:	e00b      	b.n	8000fbc <application_EXTI_callback+0x654>
+ 8000fa2:	e00b      	b.n	8000fbc <application_JOY_callback+0x654>
 					binaryDate.Year = 0;
- 8000fa4:	4b08      	ldr	r3, [pc, #32]	@ (8000fc8 <application_EXTI_callback+0x660>)
+ 8000fa4:	4b08      	ldr	r3, [pc, #32]	@ (8000fc8 <application_JOY_callback+0x660>)
  8000fa6:	2200      	movs	r2, #0
  8000fa8:	70da      	strb	r2, [r3, #3]
 				break;
- 8000faa:	e007      	b.n	8000fbc <application_EXTI_callback+0x654>
+ 8000faa:	e007      	b.n	8000fbc <application_JOY_callback+0x654>
 
 			case RIGHT_JOY_PIN: /*  */
 				AppStatus = STATE_SAVE_DATE;
- 8000fac:	4b05      	ldr	r3, [pc, #20]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000fac:	4b05      	ldr	r3, [pc, #20]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000fae:	2210      	movs	r2, #16
  8000fb0:	601a      	str	r2, [r3, #0]
 				break;
- 8000fb2:	e003      	b.n	8000fbc <application_EXTI_callback+0x654>
+ 8000fb2:	e003      	b.n	8000fbc <application_JOY_callback+0x654>
 
 			case LEFT_JOY_PIN: /*  */
 				//BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
 				AppStatus = STATE_SET_MONTH;
- 8000fb4:	4b03      	ldr	r3, [pc, #12]	@ (8000fc4 <application_EXTI_callback+0x65c>)
+ 8000fb4:	4b03      	ldr	r3, [pc, #12]	@ (8000fc4 <application_JOY_callback+0x65c>)
  8000fb6:	220e      	movs	r2, #14
  8000fb8:	601a      	str	r2, [r3, #0]
 				break;
  8000fba:	bf00      	nop
 			}
 			break;
- 8000fbc:	e088      	b.n	80010d0 <application_EXTI_callback+0x768>
+ 8000fbc:	e088      	b.n	80010d0 <application_JOY_callback+0x768>
  8000fbe:	bf00      	nop
  8000fc0:	20000068 	.word	0x20000068
  8000fc4:	200000c0 	.word	0x200000c0
@@ -1998,8 +1998,8 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  8000fcc:	88fb      	ldrh	r3, [r7, #6]
  8000fce:	3b02      	subs	r3, #2
  8000fd0:	2b1e      	cmp	r3, #30
- 8000fd2:	d87f      	bhi.n	80010d4 <application_EXTI_callback+0x76c>
- 8000fd4:	a201      	add	r2, pc, #4	@ (adr r2, 8000fdc <application_EXTI_callback+0x674>)
+ 8000fd2:	d87f      	bhi.n	80010d4 <application_JOY_callback+0x76c>
+ 8000fd4:	a201      	add	r2, pc, #4	@ (adr r2, 8000fdc <application_JOY_callback+0x674>)
  8000fd6:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
  8000fda:	bf00      	nop
  8000fdc:	0800109d 	.word	0x0800109d
@@ -2036,59 +2036,59 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
 				if (weekDayNbr < 7)
- 8001058:	4b21      	ldr	r3, [pc, #132]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 8001058:	4b21      	ldr	r3, [pc, #132]	@ (80010e0 <application_JOY_callback+0x778>)
  800105a:	781b      	ldrb	r3, [r3, #0]
  800105c:	2b06      	cmp	r3, #6
- 800105e:	d806      	bhi.n	800106e <application_EXTI_callback+0x706>
+ 800105e:	d806      	bhi.n	800106e <application_JOY_callback+0x706>
 					weekDayNbr++;
- 8001060:	4b1f      	ldr	r3, [pc, #124]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 8001060:	4b1f      	ldr	r3, [pc, #124]	@ (80010e0 <application_JOY_callback+0x778>)
  8001062:	781b      	ldrb	r3, [r3, #0]
  8001064:	3301      	adds	r3, #1
  8001066:	b2da      	uxtb	r2, r3
- 8001068:	4b1d      	ldr	r3, [pc, #116]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 8001068:	4b1d      	ldr	r3, [pc, #116]	@ (80010e0 <application_JOY_callback+0x778>)
  800106a:	701a      	strb	r2, [r3, #0]
 				else
 					weekDayNbr = 1;
 				break;
- 800106c:	e01f      	b.n	80010ae <application_EXTI_callback+0x746>
+ 800106c:	e01f      	b.n	80010ae <application_JOY_callback+0x746>
 					weekDayNbr = 1;
- 800106e:	4b1c      	ldr	r3, [pc, #112]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 800106e:	4b1c      	ldr	r3, [pc, #112]	@ (80010e0 <application_JOY_callback+0x778>)
  8001070:	2201      	movs	r2, #1
  8001072:	701a      	strb	r2, [r3, #0]
 				break;
- 8001074:	e01b      	b.n	80010ae <application_EXTI_callback+0x746>
+ 8001074:	e01b      	b.n	80010ae <application_JOY_callback+0x746>
 
 			case UP_JOY_PIN:
 				if (weekDayNbr > 1)
- 8001076:	4b1a      	ldr	r3, [pc, #104]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 8001076:	4b1a      	ldr	r3, [pc, #104]	@ (80010e0 <application_JOY_callback+0x778>)
  8001078:	781b      	ldrb	r3, [r3, #0]
  800107a:	2b01      	cmp	r3, #1
- 800107c:	d906      	bls.n	800108c <application_EXTI_callback+0x724>
+ 800107c:	d906      	bls.n	800108c <application_JOY_callback+0x724>
 					weekDayNbr--;
- 800107e:	4b18      	ldr	r3, [pc, #96]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 800107e:	4b18      	ldr	r3, [pc, #96]	@ (80010e0 <application_JOY_callback+0x778>)
  8001080:	781b      	ldrb	r3, [r3, #0]
  8001082:	3b01      	subs	r3, #1
  8001084:	b2da      	uxtb	r2, r3
- 8001086:	4b16      	ldr	r3, [pc, #88]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 8001086:	4b16      	ldr	r3, [pc, #88]	@ (80010e0 <application_JOY_callback+0x778>)
  8001088:	701a      	strb	r2, [r3, #0]
 				else
 					weekDayNbr = 7;
 				break;
- 800108a:	e010      	b.n	80010ae <application_EXTI_callback+0x746>
+ 800108a:	e010      	b.n	80010ae <application_JOY_callback+0x746>
 					weekDayNbr = 7;
- 800108c:	4b14      	ldr	r3, [pc, #80]	@ (80010e0 <application_EXTI_callback+0x778>)
+ 800108c:	4b14      	ldr	r3, [pc, #80]	@ (80010e0 <application_JOY_callback+0x778>)
  800108e:	2207      	movs	r2, #7
  8001090:	701a      	strb	r2, [r3, #0]
 				break;
- 8001092:	e00c      	b.n	80010ae <application_EXTI_callback+0x746>
+ 8001092:	e00c      	b.n	80010ae <application_JOY_callback+0x746>
 
 			case RIGHT_JOY_PIN: /* save new day and exit */
 				AppStatus = STATE_SAVE_DAY;
- 8001094:	4b13      	ldr	r3, [pc, #76]	@ (80010e4 <application_EXTI_callback+0x77c>)
+ 8001094:	4b13      	ldr	r3, [pc, #76]	@ (80010e4 <application_JOY_callback+0x77c>)
  8001096:	2206      	movs	r2, #6
  8001098:	601a      	str	r2, [r3, #0]
 				break;
- 800109a:	e008      	b.n	80010ae <application_EXTI_callback+0x746>
+ 800109a:	e008      	b.n	80010ae <application_JOY_callback+0x746>
 
 			case LEFT_JOY_PIN: /* exit without saving new day */
 				BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
@@ -2096,41 +2096,41 @@ void application_EXTI_callback(uint16_t GPIO_Pin)
  80010a0:	2000      	movs	r0, #0
  80010a2:	f000 fea1 	bl	8001de8 <BSP_LCD_GLASS_BlinkConfig>
 				AppStatus = STATE_DISPLAY_DAY;
- 80010a6:	4b0f      	ldr	r3, [pc, #60]	@ (80010e4 <application_EXTI_callback+0x77c>)
+ 80010a6:	4b0f      	ldr	r3, [pc, #60]	@ (80010e4 <application_JOY_callback+0x77c>)
  80010a8:	2203      	movs	r2, #3
  80010aa:	601a      	str	r2, [r3, #0]
 				break;
  80010ac:	bf00      	nop
 			}
 			break;
- 80010ae:	e011      	b.n	80010d4 <application_EXTI_callback+0x76c>
+ 80010ae:	e011      	b.n	80010d4 <application_JOY_callback+0x76c>
 			break;
  80010b0:	bf00      	nop
- 80010b2:	e010      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010b2:	e010      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010b4:	bf00      	nop
- 80010b6:	e00e      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010b6:	e00e      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010b8:	bf00      	nop
- 80010ba:	e00c      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010ba:	e00c      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010bc:	bf00      	nop
- 80010be:	e00a      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010be:	e00a      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010c0:	bf00      	nop
- 80010c2:	e008      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010c2:	e008      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010c4:	bf00      	nop
- 80010c6:	e006      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010c6:	e006      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010c8:	bf00      	nop
- 80010ca:	e004      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010ca:	e004      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010cc:	bf00      	nop
- 80010ce:	e002      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010ce:	e002      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010d0:	bf00      	nop
- 80010d2:	e000      	b.n	80010d6 <application_EXTI_callback+0x76e>
+ 80010d2:	e000      	b.n	80010d6 <application_JOY_callback+0x76e>
 			break;
  80010d4:	bf00      	nop
 
@@ -3596,10 +3596,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
  80019ac:	af00      	add	r7, sp, #0
  80019ae:	4603      	mov	r3, r0
  80019b0:	80fb      	strh	r3, [r7, #6]
-	application_EXTI_callback(GPIO_Pin);
+	application_JOY_callback(GPIO_Pin);
  80019b2:	88fb      	ldrh	r3, [r7, #6]
  80019b4:	4618      	mov	r0, r3
- 80019b6:	f7fe ffd7 	bl	8000968 <application_EXTI_callback>
+ 80019b6:	f7fe ffd7 	bl	8000968 <application_JOY_callback>
 }
  80019ba:	bf00      	nop
  80019bc:	3708      	adds	r7, #8

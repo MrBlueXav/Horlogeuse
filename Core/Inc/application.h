@@ -43,7 +43,7 @@ typedef enum
 
 /***********************************************************************************************************/
 void application(void);
-void application_EXTI_callback(uint16_t GPIO_Pin);
+void application_JOY_callback(uint16_t GPIO_Pin);
 void Display_First_Start_msg(void);
 void Display_WakeUp_msg(void);
 uint8_t convert_BCD_to_ASCII(uint8_t bcd_data, BCDigit_TypeDef digit);

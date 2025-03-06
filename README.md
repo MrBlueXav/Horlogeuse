@@ -1,4 +1,4 @@
-# L'Horlogeuse
+# L'Horlogeuse L476
 
  Simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).  
  Automatic standby mode when 30 s inactivity.  
