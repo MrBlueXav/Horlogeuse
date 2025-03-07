@@ -9,6 +9,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include Drivers/Sensirion_SHT45/subdir.mk
 -include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
 -include Drivers/BSP/STM32L476G-Discovery/subdir.mk
 -include Drivers/BSP/Components/mfxstm32l152/subdir.mk

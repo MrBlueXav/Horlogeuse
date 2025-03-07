@@ -16,7 +16,7 @@ S_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Core/Startup/%.o: ../Core/Startup/%.s Core/Startup/subdir.mk
-	arm-none-eabi-gcc -mcpu=cortex-m4 -c -I"D:/STM32CubeIDE/DK_L476/clock_L476DK/Drivers/BSP/Components" -I"D:/STM32CubeIDE/DK_L476/clock_L476DK/Drivers/BSP/STM32L476G-Discovery" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -c -I"D:/STM32CubeIDE/DK_L476/clock_L476DK/Drivers/BSP/Components" -I"D:/STM32CubeIDE/DK_L476/clock_L476DK/Drivers/BSP/STM32L476G-Discovery" -I"D:/STM32CubeIDE/DK_L476/clock_L476DK/Drivers/Sensirion_SHT45" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
 
 clean: clean-Core-2f-Startup
 
