@@ -9,6 +9,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "application.h"
+#include "SHT45_appli.h"
 #include <stdbool.h>
 
 /********************************************* Global variables *****************************************************/
@@ -111,6 +112,28 @@ void application(void)
 			HAL_RTC_GetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 			BSP_LCD_GLASS_Clear();
 			BSP_LCD_GLASS_DisplayString((uint8_t*) weekDay[theDate.WeekDay - 1]); /* WeekDay is in [1...7] ! */
+		}
+		break;
+
+		/*-------------------------------------------------------------------------------------*/
+	case STATE_DISPLAY_TEMPERATURE:
+
+		if (HAL_GetTick() - time_counter > 1000)
+		{
+			time_counter = HAL_GetTick();
+			inactivity_time = 0; /* prevent auto standby */
+			SHT45_LCD_temperature_display();
+		}
+		break;
+
+		/*-------------------------------------------------------------------------------------*/
+	case STATE_DISPLAY_HUMIDITY:
+
+		if (HAL_GetTick() - time_counter > 1000)
+		{
+			time_counter = HAL_GetTick();
+			inactivity_time = 0; /* prevent auto standby */
+			SHT45_LCD_humidity_display();
 		}
 		break;
 
@@ -324,7 +347,7 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 				break;
 
 			case UP_JOY_PIN:
-				AppStatus = STATE_DISPLAY_DAY;
+				AppStatus = STATE_DISPLAY_HUMIDITY;
 				break;
 
 			case RIGHT_JOY_PIN:
@@ -334,7 +357,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
-
 		case STATE_DISPLAY_DATE:
 
 			switch (GPIO_Pin)
@@ -354,13 +376,12 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
-
 		case STATE_DISPLAY_DAY:
 
 			switch (GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
-				AppStatus = STATE_DISPLAY_TIME;
+				AppStatus = STATE_DISPLAY_TEMPERATURE;
 				break;
 
 			case UP_JOY_PIN:
@@ -374,7 +395,44 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
+		case STATE_DISPLAY_TEMPERATURE:
 
+			switch (GPIO_Pin)
+			{
+			case DOWN_JOY_PIN:
+				AppStatus = STATE_DISPLAY_HUMIDITY;
+				break;
+
+			case UP_JOY_PIN:
+				AppStatus = STATE_DISPLAY_DAY;
+				break;
+
+//			case RIGHT_JOY_PIN:
+//				AppStatus = STATE_GET_DAY;
+//				break;
+			}
+			break;
+
+			/*-------------------------------------------------------------------------------------*/
+		case STATE_DISPLAY_HUMIDITY:
+
+			switch (GPIO_Pin)
+			{
+			case DOWN_JOY_PIN:
+				AppStatus = STATE_DISPLAY_TIME;
+				break;
+
+			case UP_JOY_PIN:
+				AppStatus = STATE_DISPLAY_TEMPERATURE;
+				break;
+
+				//			case RIGHT_JOY_PIN:
+				//				AppStatus = STATE_GET_DAY;
+				//				break;
+			}
+			break;
+
+			/*-------------------------------------------------------------------------------------*/
 		case STATE_SET_HOURS:
 
 			switch (GPIO_Pin)
@@ -405,7 +463,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
-
 		case STATE_SET_MINS:
 
 			switch (GPIO_Pin)
@@ -615,8 +672,9 @@ void Display_WakeUp_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
-	HAL_Delay(50);
+	//BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_DisplayString((uint8_t*) "Coucou");
+	HAL_Delay(2000);
 	BSP_LCD_GLASS_Clear();
 }
 
