@@ -1,6 +1,7 @@
 # L'Horlogeuse L476
 
  Simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).  
+ Displays also temperature and humidity provided by SHT45 captor connected on I2C_1 (CN2).
  Automatic standby mode when 30 s inactivity.  
  
  Navigation with joystick to display/set time and date.  

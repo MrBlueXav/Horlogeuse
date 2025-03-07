@@ -182,6 +182,8 @@ void SystemHardwareDeInit(void);
 #define OTG_FS_OverCurrent_EXTI_IRQn EXTI15_10_IRQn
 #define OTG_FS_VBUS_Pin GPIO_PIN_11
 #define OTG_FS_VBUS_GPIO_Port GPIOC
+#define SHT45_Vin_Pin GPIO_PIN_0
+#define SHT45_Vin_GPIO_Port GPIOD
 #define MEMS_SCK_Pin GPIO_PIN_1
 #define MEMS_SCK_GPIO_Port GPIOD
 #define MEMS_MISO_Pin GPIO_PIN_3
