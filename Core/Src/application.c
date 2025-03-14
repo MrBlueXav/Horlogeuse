@@ -4,6 +4,7 @@
  * 		L'HORLOGEUSE L476
  *
  *  Created on: Mar 1, 2025
+ *  14/03/25
  *      Author: Xavier Halgand
  */
 
@@ -123,7 +124,8 @@ void application(void)
 		HAL_RTC_GetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 		binaryTime.Hours = RTC_Bcd2ToByte(theTime.Hours);
 		binaryTime.Minutes = RTC_Bcd2ToByte(theTime.Minutes);
-		binaryTime.Seconds = RTC_Bcd2ToByte(theTime.Seconds);
+		//binaryTime.Seconds = RTC_Bcd2ToByte(theTime.Seconds);
+		binaryTime.Seconds = 0x00;
 		AppStatus = STATE_SET_HOURS;
 		displayMustBeUpdated = true;
 		break;
@@ -236,7 +238,7 @@ void application(void)
 			bufYear[1] = convert_BCD_to_ASCII(RTC_ByteToBcd2(binaryDate.Year), LSBCDIGIT);
 			BSP_LCD_GLASS_Clear();
 			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[0], POINT_OFF, DOUBLEPOINT_OFF, 4);
-			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[1], POINT_ON, DOUBLEPOINT_OFF, 5);
+			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[1], POINT_OFF, DOUBLEPOINT_OFF, 5);
 			displayMustBeUpdated = false;
 		}
 		break;
@@ -600,8 +602,8 @@ void Display_First_Start_msg(void)
 	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *HORLOGEUSE*", 1, SCROLL_SPEED_MEDIUM);
 	HAL_Delay(50);
 	BSP_LCD_GLASS_Clear();
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     PAR XAVIER HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     METTRE A L HEURE SVP", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *PAR XAVIER HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *METTRE A L HEURE SVP", 1, SCROLL_SPEED_MEDIUM);
 	BSP_LCD_GLASS_Clear();
 }
 
@@ -615,7 +617,7 @@ void Display_WakeUp_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
 	HAL_Delay(50);
 	BSP_LCD_GLASS_Clear();
 }
