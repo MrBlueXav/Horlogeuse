@@ -146,7 +146,8 @@ void application(void)
 		HAL_RTC_GetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 		binaryTime.Hours = RTC_Bcd2ToByte(theTime.Hours);
 		binaryTime.Minutes = RTC_Bcd2ToByte(theTime.Minutes);
-		binaryTime.Seconds = RTC_Bcd2ToByte(theTime.Seconds);
+		//binaryTime.Seconds = RTC_Bcd2ToByte(theTime.Seconds);
+		binaryTime.Seconds = 0x00;
 		AppStatus = STATE_SET_HOURS;
 		displayMustBeUpdated = true;
 		break;
@@ -259,7 +260,7 @@ void application(void)
 			bufYear[1] = convert_BCD_to_ASCII(RTC_ByteToBcd2(binaryDate.Year), LSBCDIGIT);
 			BSP_LCD_GLASS_Clear();
 			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[0], POINT_OFF, DOUBLEPOINT_OFF, 4);
-			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[1], POINT_ON, DOUBLEPOINT_OFF, 5);
+			BSP_LCD_GLASS_DisplayChar((uint8_t*) &bufYear[1], POINT_OFF, DOUBLEPOINT_OFF, 5);
 			displayMustBeUpdated = false;
 		}
 		break;
