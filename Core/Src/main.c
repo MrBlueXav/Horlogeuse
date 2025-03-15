@@ -169,7 +169,7 @@ int main(void)
 	inactivity_time = 0; // increased in systick interrupt handler (stm32....it.c)
 	AppStatus = STATE_DISPLAY_TIME;
 
-	//SHT45_LCD_appli();
+	//SHT45_LCD_test();
 
 	while (inactivity_time < MAX_INACTIVITY_TIME)
 	{
