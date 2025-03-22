@@ -16,7 +16,7 @@ extern const uint16_t CapLetterMap[26];
 extern const uint16_t NumberMap[10];
 extern uint32_t Digit[4];
 extern uint8_t LCDBar;
-extern const uint16_t FourteenSegmentASCII[96];
+extern const uint16_t FourteenSegmentASCII_STM32[96];
 
 /* Defines -------------------------------------------------------------------*/
 #define ASCII_CHAR_0                  0x30  /* 0 */
@@ -24,6 +24,8 @@ extern const uint16_t FourteenSegmentASCII[96];
 #define ASCII_CHAR_LEFT_OPEN_BRACKET  0x5B  /* [ */
 #define ASCII_CHAR_APOSTROPHE         0x60  /* ` */
 #define ASCII_CHAR_LEFT_OPEN_BRACE    0x7B  /* ( */
+#define SYMBOL12	(0x5FC9)
+#define NON_PRINTABLE_CHARACTER		SYMBOL12
 
 /**************************************************************************************************************/
 /**
@@ -185,12 +187,12 @@ static void Convert2(uint8_t *Char, Point_Typedef Point, DoublePoint_Typedef Col
 		break;
 
 	default:
-		/* The character Char is in ASCII table */
-		if ((*Char < 127) && (*Char > 31))
+		/* The character Char is in extended ASCII table */
+		if ((*Char < 145) && (*Char > 31))
 		{
-			ch = convert_to_STM32L476DK_glass_LCD(FourteenSegmentASCII[*Char - 32]);
+			ch = FourteenSegmentASCII_STM32[*Char - 32];
 		}
-		else ch = C_FULL; /* non printable character */
+		else ch = NON_PRINTABLE_CHARACTER; /* non printable character */
 		break;
 	}
 
@@ -709,20 +711,20 @@ void print_all_characters(void)
 
 	BSP_LCD_GLASS_DisplayChar2((uint8_t*) "µ", POINT_OFF, DOUBLEPOINT_OFF, pos);
 	pos++;
-	HAL_Delay(1000);
+	HAL_Delay(500);
 	BSP_LCD_GLASS_DisplayChar2((uint8_t*) "°", POINT_OFF, DOUBLEPOINT_OFF, pos);
 	pos++;
-	HAL_Delay(1000);
-	BSP_LCD_GLASS_DisplayChar2((uint8_t*) "à", POINT_OFF, DOUBLEPOINT_OFF, pos); /* Non printable character => C_FULL */
+	HAL_Delay(500);
+	BSP_LCD_GLASS_DisplayChar2((uint8_t*) "à", POINT_OFF, DOUBLEPOINT_OFF, pos); /* Non printable character => SYMBOL12 */
 	pos++;
-	HAL_Delay(1000);
+	HAL_Delay(500);
 
-	for (uint8_t ch = 32; ch < 127; ch++)
+	for (uint8_t ch = 32; ch < 145; ch++)
 	{
 		BSP_LCD_GLASS_DisplayChar2(&ch, POINT_OFF, DOUBLEPOINT_OFF, pos);
-		HAL_Delay(1000);
+		HAL_Delay(500);
 		pos++;
-		if (pos >= 6)
+		if (pos >= 4)
 			{
 				pos = 0;
 				BSP_LCD_GLASS_Clear();
