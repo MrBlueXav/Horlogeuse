@@ -497,7 +497,6 @@ void BSP_LCD_GLASS_BlinkConfig(uint32_t BlinkMode, uint32_t BlinkFrequency);
 void BSP_LCD_GLASS_Contrast(uint32_t Contrast);
 void BSP_LCD_GLASS_DisplayChar(uint8_t *ch, Point_Typedef Point, DoublePoint_Typedef Column, DigitPosition_Typedef Position);
 void BSP_LCD_GLASS_DisplayString(uint8_t *ptr);
-void BSP_LCD_GLASS_DisplayString_plus_one_dot(uint8_t *ptr, DigitPosition_Typedef posit);
 void BSP_LCD_GLASS_DisplayStrDeci(uint16_t *ptr);
 void BSP_LCD_GLASS_ScrollSentence(uint8_t *ptr, uint16_t nScroll, uint16_t ScrollSpeed);
 void BSP_LCD_GLASS_DisplayBar(uint32_t BarId);

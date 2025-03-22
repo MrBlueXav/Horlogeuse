@@ -93,10 +93,10 @@ __IO uint8_t bLCDGlass_KeyPressed = 0;
 
  The character 'A' for example is:
  -------------------------------
- LSB   { 1 , 0 , 0 , 0   }
+ LSB { 1 , 0 , 0 , 0   }
  { 1 , 1 , 0 , 0   }
  { 1 , 1 , 0 , 0   }
- MSB   { 1 , 1 , 0 , 0   }
+ MSB { 1 , 1 , 0 , 0   }
  -------------------
  'A' =  F    E   0   0 hexa
 
@@ -450,34 +450,6 @@ void BSP_LCD_GLASS_DisplayString(uint8_t *ptr)
 	{
 		/* Write one character on LCD */
 		WriteChar(ptr, POINT_OFF, DOUBLEPOINT_OFF, position);
-
-		/* Point on the next character */
-		ptr++;
-
-		/* Increment the character counter */
-		position++;
-	}
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-}
-
-/**
- * @brief  Write a character string in the LCD RAM buffer.
- * @param  ptr: Pointer to string to display on the LCD Glass.
- * @retval None
- */
-void BSP_LCD_GLASS_DisplayString_plus_one_dot(uint8_t *ptr, DigitPosition_Typedef posit)
-{
-	DigitPosition_Typedef position = LCD_DIGIT_POSITION_1;
-
-	/* Send the string character by character on lCD */
-	while ((*ptr != 0) && (position <= LCD_DIGIT_POSITION_6))
-	{
-		/* Write one character on LCD */
-		if (position == posit)
-			WriteChar(ptr, POINT_ON, DOUBLEPOINT_OFF, position);
-		else
-			WriteChar(ptr, POINT_OFF, DOUBLEPOINT_OFF, position);
 
 		/* Point on the next character */
 		ptr++;
@@ -981,13 +953,6 @@ static void WriteChar(uint8_t *ch, Point_Typedef Point, DoublePoint_Typedef Colo
 	}
 }
 
-/**
- * @}
- */
-
-/**
- * @}
- */
 
 /**
  * @}

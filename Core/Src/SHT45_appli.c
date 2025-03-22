@@ -6,6 +6,7 @@
  */
 /***********************************************************************/
 #include "stm32l476g_discovery.h"
+#include "STM32L476_DK_glass_lcd_extension.h"
 #include "SHT45_appli.h"
 #include "retarget.h"
 #include "sensirion_common.h"
@@ -28,7 +29,6 @@ void LCD_temp_disp(int32_t temp)
 
 void SHT45_LCD_temperature_display(void)
 {
-	char LCDbuffer[10];
 	int16_t error = NO_ERROR;
 	int32_t temperature_milli_degC = 0;
 	int32_t humidity_milli_RH = 0;
@@ -38,7 +38,8 @@ void SHT45_LCD_temperature_display(void)
 	{
 		//printf("error executing measure : %i\n", error);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "ERROR");
+		BSP_LCD_GLASS_DisplayString((uint8_t*) "TERROR");
+		LCD_GLASS_Display_Colon(LCD_COLON_0);
 	}
 	else
 	{
@@ -58,7 +59,8 @@ void SHT45_LCD_humidity_display(void)
 	{
 		//printf("error executing measure : %i\n", error);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "ERROR");
+		BSP_LCD_GLASS_DisplayString((uint8_t*) "HERROR");
+		LCD_GLASS_Display_Colon(LCD_COLON_0);
 	}
 	else
 	{
