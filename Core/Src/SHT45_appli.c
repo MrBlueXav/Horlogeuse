@@ -38,7 +38,7 @@ void SHT45_LCD_temperature_display(void)
 	{
 		//printf("error executing measure : %i\n", error);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "TERROR");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "TError");
 		LCD_GLASS_Display_Colon(LCD_COLON_0);
 	}
 	else
@@ -59,7 +59,7 @@ void SHT45_LCD_humidity_display(void)
 	{
 		//printf("error executing measure : %i\n", error);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "HERROR");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "HError");
 		LCD_GLASS_Display_Colon(LCD_COLON_0);
 	}
 	else
@@ -105,7 +105,7 @@ void SHT45_LCD_test(void)
 	{
 		//printf("error executing measure : %i\n", error);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "ERROR");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "Error");
 		HAL_Delay(4000);
 	}
 	else

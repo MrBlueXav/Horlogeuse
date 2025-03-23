@@ -11,6 +11,7 @@
 /***********************************************************************************************************/
 #include "stm32l476g_discovery.h"
 #include "stm32l476g_discovery_glass_lcd.h"
+#include "STM32L476_DK_glass_lcd_extension.h"
 
 /***********************************************************************************************************/
 typedef enum
@@ -19,6 +20,8 @@ typedef enum
 	STATE_DISPLAY_TIME, /*  */
 	STATE_DISPLAY_DATE, /*  */
 	STATE_DISPLAY_DAY, /*  */
+	STATE_DICE_INTRO, /*   */
+	STATE_DISPLAY_DICE, /*    */
 	STATE_DISPLAY_TEMPERATURE, /*  */
 	STATE_DISPLAY_HUMIDITY, /*  */
 	STATE_GET_DAY, /*  */

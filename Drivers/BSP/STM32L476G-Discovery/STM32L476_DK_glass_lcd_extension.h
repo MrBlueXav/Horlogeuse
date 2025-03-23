@@ -35,6 +35,9 @@ Colon_Typedef;
 void LCD_GLASS_Display_Dot(Dot_Typedef dot);
 void LCD_GLASS_Display_Colon(Colon_Typedef colon);
 void BSP_LCD_GLASS_DisplayString_plus_one_dot(uint8_t *ptr, DigitPosition_Typedef pos);
+void BSP_LCD_GLASS_DisplayChar2(uint8_t *ch, Point_Typedef Point, DoublePoint_Typedef Colon, DigitPosition_Typedef Position);
+void BSP_LCD_GLASS_DisplayString2(uint8_t *ptr);
+void BSP_LCD_GLASS_ScrollSentence2(uint8_t *ptr, uint16_t nScroll, uint16_t ScrollSpeed);
 void Dot_colon_LCD_test(void);
 void print_all_characters(void);
 

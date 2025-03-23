@@ -9,11 +9,13 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "application.h"
+#include "main.h"
 #include "SHT45_appli.h"
 #include <stdbool.h>
 
 /********************************************* Global variables *****************************************************/
 extern RTC_HandleTypeDef hrtc;
+extern RNG_HandleTypeDef hrng;
 extern volatile uint8_t bLCDGlass_KeyPressed;
 extern __IO uint32_t AppStatus;
 extern __IO uint32_t inactivity_time;
@@ -30,7 +32,30 @@ RTC_TimeTypeDef binaryTime;
 RTC_DateTypeDef theDate;
 RTC_DateTypeDef binaryDate;
 
-/*****************************************************************************************************************/
+uint32_t diceResult = 0;
+uint8_t diceResultPosition = 0;
+volatile bool diceDisplayMustBeUpdated = true;
+
+/*------------------------------------------------------------------------------------------------*/
+void Display_dice_intro(void)
+{
+	BSP_LCD_GLASS_Clear();
+	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     *DICE*", 1, SCROLL_SPEED_MEDIUM);
+}
+
+/*------------------------------------------------------------------------------------------------*/
+uint32_t Get_dice(void)
+{
+	uint32_t aRandom32bit = 0;
+	if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit) != HAL_OK)
+	{
+		/* Random number generation error */
+		Error_Handler();
+	}
+	return (aRandom32bit % 6 + 1);
+}
+
+/**************************************************************************************************/
 void application(void)
 {
 	uint8_t bufSec[2];
@@ -111,8 +136,32 @@ void application(void)
 			HAL_RTC_GetTime(&hrtc, &theTime, RTC_FORMAT_BCD);
 			HAL_RTC_GetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 			BSP_LCD_GLASS_Clear();
-			BSP_LCD_GLASS_DisplayString((uint8_t*) weekDay[theDate.WeekDay - 1]); /* WeekDay is in [1...7] ! */
+			BSP_LCD_GLASS_DisplayString2((uint8_t*) weekDay[theDate.WeekDay - 1]); /* WeekDay is in [1...7] ! */
 		}
+		break;
+
+		/*-------------------------------------------------------------------------------------*/
+	case STATE_DICE_INTRO:
+
+		Display_dice_intro();
+		diceResult = Get_dice();
+		AppStatus = STATE_DISPLAY_DICE;
+		diceDisplayMustBeUpdated = true;
+
+		break;
+
+		/*-------------------------------------------------------------------------------------*/
+	case STATE_DISPLAY_DICE:
+
+		if (diceDisplayMustBeUpdated)
+		{
+			BSP_LCD_GLASS_Clear();
+			uint8_t ch = 48 + diceResult;
+			BSP_LCD_GLASS_DisplayChar2(&ch, POINT_OFF, DOUBLEPOINT_OFF, diceResultPosition % 6);
+			diceResultPosition++;
+			diceDisplayMustBeUpdated = false;
+		}
+
 		break;
 
 		/*-------------------------------------------------------------------------------------*/
@@ -202,7 +251,7 @@ void application(void)
 		theTime.Seconds = RTC_ByteToBcd2(binaryTime.Seconds);
 		HAL_RTC_SetTime(&hrtc, &theTime, RTC_FORMAT_BCD);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "SAVED");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "SAVED");
 		HAL_Delay(2000);
 		BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
 		AppStatus = STATE_DISPLAY_TIME;
@@ -273,7 +322,7 @@ void application(void)
 		theDate.Year = RTC_ByteToBcd2(binaryDate.Year);
 		HAL_RTC_SetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "SAVED");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "SAVED");
 		HAL_Delay(2000);
 		BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
 		AppStatus = STATE_DISPLAY_DATE;
@@ -297,7 +346,7 @@ void application(void)
 		if (displayMustBeUpdated)
 		{
 			BSP_LCD_GLASS_Clear();
-			BSP_LCD_GLASS_DisplayString((uint8_t*) weekDay[weekDayNbr - 1]); /* WeekDay is in [1...7] ! */
+			BSP_LCD_GLASS_DisplayString2((uint8_t*) weekDay[weekDayNbr - 1]); /* WeekDay is in [1...7] ! */
 			displayMustBeUpdated = false;
 		}
 		break;
@@ -308,7 +357,7 @@ void application(void)
 		theDate.WeekDay = weekDayNbr;
 		HAL_RTC_SetDate(&hrtc, &theDate, RTC_FORMAT_BCD);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString((uint8_t*) "SAVED");
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) "SAVED");
 		HAL_Delay(2000);
 		BSP_LCD_GLASS_BlinkConfig(LCD_BLINKMODE_OFF, LCD_BLINKFREQUENCY_DIV512);
 		AppStatus = STATE_DISPLAY_DAY;
@@ -382,7 +431,7 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			switch (GPIO_Pin)
 			{
 			case DOWN_JOY_PIN:
-				AppStatus = STATE_DISPLAY_TEMPERATURE;
+				AppStatus = STATE_DICE_INTRO;
 				break;
 
 			case UP_JOY_PIN:
@@ -391,6 +440,27 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 
 			case RIGHT_JOY_PIN:
 				AppStatus = STATE_GET_DAY;
+				break;
+			}
+			break;
+
+			/*-------------------------------------------------------------------------------------*/
+		case STATE_DISPLAY_DICE:
+
+			switch (GPIO_Pin)
+			{
+			case DOWN_JOY_PIN:
+				AppStatus = STATE_DISPLAY_TEMPERATURE;
+				break;
+
+			case UP_JOY_PIN:
+				AppStatus = STATE_DISPLAY_DAY;
+				break;
+
+			case RIGHT_JOY_PIN:
+				diceResult = Get_dice();
+				//AppStatus = STATE_DISPLAY_DICE;
+				diceDisplayMustBeUpdated = true;
 				break;
 			}
 			break;
@@ -405,7 +475,7 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 				break;
 
 			case UP_JOY_PIN:
-				AppStatus = STATE_DISPLAY_DAY;
+				AppStatus = STATE_DICE_INTRO;
 				break;
 
 //			case RIGHT_JOY_PIN:
@@ -655,11 +725,11 @@ void Display_First_Start_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     *HORLOGEUSE*", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     *HORLOGEUSE*", 1, SCROLL_SPEED_MEDIUM);
 	HAL_Delay(50);
 	BSP_LCD_GLASS_Clear();
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     PAR XAVIER HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     METTRE A L HEURE SVP", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     Par Xavier HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
+	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     Mettre a l'heure SVP", 1, SCROLL_SPEED_MEDIUM);
 	BSP_LCD_GLASS_Clear();
 }
 
@@ -674,7 +744,7 @@ void Display_WakeUp_msg(void)
 
 	/* Display LCD messages */
 	//BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_DisplayString((uint8_t*) "Coucou");
+	BSP_LCD_GLASS_DisplayString2((uint8_t*) "Coucou");
 	HAL_Delay(2000);
 	BSP_LCD_GLASS_Clear();
 }

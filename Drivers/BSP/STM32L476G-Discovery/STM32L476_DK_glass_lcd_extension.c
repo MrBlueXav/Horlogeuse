@@ -17,6 +17,7 @@ extern const uint16_t NumberMap[10];
 extern uint32_t Digit[4];
 extern uint8_t LCDBar;
 extern const uint16_t FourteenSegmentASCII_STM32[96];
+extern __IO uint8_t bLCDGlass_KeyPressed;
 
 /* Defines -------------------------------------------------------------------*/
 #define ASCII_CHAR_0                  0x30  /* 0 */
@@ -147,27 +148,27 @@ static void Convert(uint8_t *Char, Point_Typedef Point, DoublePoint_Typedef Colo
 }
 
 /*----------------------------------------------------------------------------*/
-uint16_t convert_to_STM32L476DK_glass_LCD(uint16_t code)
-{
-	uint16_t converted =
-			((0x0001 & code) << 10) |
-			((0x0002 & code) << 13) |
-			((0x0004 & code) <<  7) |
-			((0x0008 & code) <<  5) |
-			((0x0010 & code) <<  8) |
-			((0x0020 & code) <<  6) |
-			((0x0040 & code) <<  9) |
-			((0x0080 & code) <<  6) |
-			((0x0100 & code) >>  5) |
-			((0x0200 & code) >>  7) |
-			((0x0400 & code) >>  4) |
-			((0x0800 & code) >>  4) |
-			((0x1000 & code) >>  8) |
-			((0x2000 & code) >> 13) |
-			((0x4000 & code) >> 13) |
-			((0x8000 & code) >> 10);
-	return converted;
-}
+//uint16_t convert_to_STM32L476DK_glass_LCD(uint16_t code)
+//{
+//	uint16_t converted =
+//			((0x0001 & code) << 10) |
+//			((0x0002 & code) << 13) |
+//			((0x0004 & code) <<  7) |
+//			((0x0008 & code) <<  5) |
+//			((0x0010 & code) <<  8) |
+//			((0x0020 & code) <<  6) |
+//			((0x0040 & code) <<  9) |
+//			((0x0080 & code) <<  6) |
+//			((0x0100 & code) >>  5) |
+//			((0x0200 & code) >>  7) |
+//			((0x0400 & code) >>  4) |
+//			((0x0800 & code) >>  4) |
+//			((0x1000 & code) >>  8) |
+//			((0x2000 & code) >> 13) |
+//			((0x4000 & code) >> 13) |
+//			((0x8000 & code) >> 10);
+//	return converted;
+//}
 
 /*----------------------------------------------------------------------------*/
 static void Convert2(uint8_t *Char, Point_Typedef Point, DoublePoint_Typedef Colon)
@@ -540,8 +541,91 @@ void BSP_LCD_GLASS_DisplayChar2(uint8_t *ch, Point_Typedef Point, DoublePoint_Ty
 	/* Update the LCD display */
 	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
 }
+/**
+ * @brief  Write a character string in the LCD RAM buffer.
+ * @param  ptr: Pointer to string to display on the LCD Glass.
+ * @retval None
+ */
+void BSP_LCD_GLASS_DisplayString2(uint8_t *ptr)
+{
+	DigitPosition_Typedef position = LCD_DIGIT_POSITION_1;
 
+	/* Send the string character by character on lCD */
+	while ((*ptr != 0) && (position <= LCD_DIGIT_POSITION_6))
+	{
+		/* Write one character on LCD */
+		WriteChar2(ptr, POINT_OFF, DOUBLEPOINT_OFF, position);
+
+		/* Point on the next character */
+		ptr++;
+
+		/* Increment the character counter */
+		position++;
+	}
+	/* Update the LCD display */
+	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
+}
 /*--------------------------------------------------------------------------------------------*/
+
+/**
+ * @brief  Display a string in scrolling mode
+ * @param  ptr: Pointer to string to display on the LCD Glass.
+ * @param  nScroll: Specifies how many time the message will be scrolled
+ * @param  ScrollSpeed : Specifies the speed of the scroll, low value gives
+ *         higher speed
+ * @retval None
+ * @note   Required preconditions: The LCD should be cleared before to start the
+ *         write operation.
+ */
+void BSP_LCD_GLASS_ScrollSentence2(uint8_t *ptr, uint16_t nScroll, uint16_t ScrollSpeed)
+{
+	uint8_t repetition = 0, nbrchar = 0, sizestr = 0;
+	uint8_t *ptr1;
+	uint8_t str[6] = "";
+
+	/* Reset interrupt variable in case key was press before entering function */
+	bLCDGlass_KeyPressed = 0;
+
+	if (ptr == 0)
+	{
+		return;
+	}
+
+	/* To calculate end of string */
+	for (ptr1 = ptr, sizestr = 0; *ptr1 != 0; sizestr++, ptr1++)
+		;
+
+	ptr1 = ptr;
+
+	BSP_LCD_GLASS_DisplayString2(str);
+	HAL_Delay(ScrollSpeed);
+
+	/* To shift the string for scrolling display*/
+	for (repetition = 0; repetition < nScroll; repetition++)
+	{
+		for (nbrchar = 0; nbrchar < sizestr; nbrchar++)
+		{
+			*(str) = *(ptr1 + ((nbrchar + 1) % sizestr));
+			*(str + 1) = *(ptr1 + ((nbrchar + 2) % sizestr));
+			*(str + 2) = *(ptr1 + ((nbrchar + 3) % sizestr));
+			*(str + 3) = *(ptr1 + ((nbrchar + 4) % sizestr));
+			*(str + 4) = *(ptr1 + ((nbrchar + 5) % sizestr));
+			*(str + 5) = *(ptr1 + ((nbrchar + 6) % sizestr));
+			BSP_LCD_GLASS_Clear();
+			BSP_LCD_GLASS_DisplayString2(str);
+
+			/* user button pressed stop the scrolling sentence */
+			if (bLCDGlass_KeyPressed)
+			{
+				bLCDGlass_KeyPressed = 0;
+				return;
+			}
+			HAL_Delay(ScrollSpeed);
+		}
+	}
+}
+
+
 /**
  * @brief  Write a character string in the LCD RAM buffer and a dot.
  * @param  ptr: Pointer to string to display on the LCD Glass.
@@ -639,44 +723,7 @@ void LCD_GLASS_Display_Colon(Colon_Typedef colon)
 }
 
 /*--------------------------------------------------------------------------------------------*/
-void Dot_colon_LCD_test0(void)
-{
-	BSP_LCD_GLASS_DisplayString((uint8_t*) "123456");
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~LCD_SEG1, LCD_SEG1);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~LCD_SEG3, LCD_SEG3);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER6, ~LCD_SEG5, LCD_SEG5);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER7, ~LCD_SEG7, LCD_SEG7);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
 
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~LCD_SEG1, LCD_SEG1);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~LCD_SEG3, LCD_SEG3);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER4, ~LCD_SEG5, LCD_SEG5);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-	HAL_LCD_Write(&LCDHandle, LCD_RAM_REGISTER5, ~LCD_SEG7, LCD_SEG7);
-	/* Update the LCD display */
-	HAL_LCD_UpdateDisplayRequest(&LCDHandle);
-	HAL_Delay(1000);
-}
 
 /*--------------------------------------------------------------------------------------------*/
 void Dot_colon_LCD_test(void)
