@@ -30,4 +30,5 @@ Drivers/BSP/Components/lsm303c \
 Drivers/BSP/Components/mfxstm32l152 \
 Drivers/BSP/STM32L476G-Discovery \
 Drivers/STM32L4xx_HAL_Driver/Src \
+Drivers/Sensirion_SHT45 \
 
