@@ -1,6 +1,6 @@
 /*
- *  Project     Segmented LED Display - ASCII Library
- *  @author     David Madison
+ *  Project     Segmented LED Display - ASCII Library for for STM32L476-DK glass LCD
+ *  @author     David Madison converted by Xavier Halgand
  *  @link       github.com/dmadison/Segmented-LED-Display-ASCII
  *  @license    MIT - Copyright (c) 2017 David Madison
  *

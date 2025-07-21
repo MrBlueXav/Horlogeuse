@@ -1,8 +1,8 @@
 # L'Horlogeuse L476
 
  Simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).  
- Displays also temperature and humidity provided by SHT45 captor (Adafruit 5665) connected on I2C_1 (CN2).  
- Dice function generates a number between 1 and 6.  
+ Displays also temperature and humidity provided by external SHT45 captor (Adafruit 5665) connected on I2C_1 (CN2).  
+ There is also a dice function that generates a number between 1 and 6.  
  Automatic standby mode when 30 s inactivity.  
  
  Navigation with joystick to display/set time and date.  
@@ -14,11 +14,11 @@
  In branch "Clock_Temperature_Humidity" a driver for SHT45 has been added.  
  
  The board can work with CR2032 battery only : remove jumpers on JP3, JP5 and JP6. Then connect JP5_pin2 (center) with JP6_pin1 (upper).  
-  -> In that case, only MCU STM32L476 is powered and no other accessories as there is **no voltage** on 3V and 3V3 nets !  
+  -> In that case, only MCU STM32L476 is powered and no other accessories (as there is **no voltage** on 3V and 3V3 nets) !  
   
  Displays are in French.  
  
- STM32CubeIDE v.1.18 configurable project with MX .ioc file.  
+ STM32CubeIDE v.1.19 configurable project with MX .ioc file.  
  
  Inspired by ST BSP project :  
  https://github.com/STMicroelectronics/STM32CubeL4/tree/master/Projects/32L476GDISCOVERY/Examples/BSP  
