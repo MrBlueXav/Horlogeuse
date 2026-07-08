@@ -4,6 +4,7 @@
  * 		L'HORLOGEUSE L476
  *
  *  Created on: Mar 1, 2025
+ *  14/03/25
  *      Author: Xavier Halgand
  */
 
@@ -743,9 +744,11 @@ void Display_WakeUp_msg(void)
 	BSP_LCD_GLASS_Clear();
 
 	/* Display LCD messages */
+
 	//BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
 	BSP_LCD_GLASS_DisplayString2((uint8_t*) "Coucou");
 	HAL_Delay(2000);
+
 	BSP_LCD_GLASS_Clear();
 }
 
