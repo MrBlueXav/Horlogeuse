@@ -5,14 +5,13 @@
  * @brief          : Main program body
  ******************************************************************************
  *
- * @attention		L'HORLOGEUSE L476
+ * @attention		THERMOmètre L476
  *
- * This is a simple clock, like an LCD watch, for STM32L476 Discovery kit (STM32L476G-DISCO).
+ * This is a simple temperature and humidity viewer, for STM32L476 Discovery kit (STM32L476G-DISCO).
+ * Displays temperature and humidity provided by external SHT45 captor (Adafruit 5665) connected on I2C_1 (CN2).
  * Automatic standby mode when 30 s inactivity.
- * Navigation with joystick to display / set time and date.
- * Works with CR2032 battery.
  *
- * Copyright (c) 2025 Xavier Halgand & STMicroelectronics.
+ * Copyright (c) 2026 Xavier Halgand & STMicroelectronics.
  * All rights reserved.
  *
  * This software is licensed under terms that can be found in the LICENSE file
@@ -157,14 +156,14 @@ int main(void)
 	HAL_Delay(20);
 
 	/*------------------------------------------------------------------------------*/
-	if (ReturnFromStandbyShutdown == SET)
-	{
-		Display_WakeUp_msg();
-	}
-	else
-	{
-		Display_First_Start_msg();
-	}
+//	if (ReturnFromStandbyShutdown == SET)
+//	{
+//		Display_WakeUp_msg();
+//	}
+//	else
+//	{
+//		Display_First_Start_msg();
+//	}
 
 	//SHT45_LCD_test();
 	//Dot_colon_LCD_test();
@@ -173,7 +172,7 @@ int main(void)
 	time_counter = HAL_GetTick();
 	time_counter2 = HAL_GetTick();
 	inactivity_time = 0; // increased in systick interrupt handler (stm32....it.c)
-	AppStatus = STATE_DISPLAY_TIME;
+	AppStatus = STATE_DISPLAY_TEMPERATURE;
 
 	while (inactivity_time < MAX_INACTIVITY_TIME)
 	{
