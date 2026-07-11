@@ -14,7 +14,7 @@
 #include "sht4x_i2c.h"
 
 /***********************************************************************/
-void LCD_temp_disp(int32_t temp)
+void LCD_temp_disp_old(int32_t temp)
 {
 	char LCDbuffer[10];
 	sprintf(LCDbuffer, "%+06ld", temp);
@@ -24,7 +24,35 @@ void LCD_temp_disp(int32_t temp)
 		BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_4);
 	else
 		BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_3);
+}
 
+void LCD_temp_disp(int32_t temp)
+{
+	BSP_LCD_GLASS_Clear();
+
+	int8_t sign = 1;
+
+	if (temp < 0)
+	{
+		temp = -temp;
+		sign = -1;
+	}
+	int32_t q = temp / 100;
+	int32_t r = temp % 100;
+	if (r > 50)
+		q++;
+
+	char LCDbuffer[12];
+	if (temp / 1000 == 0) // to display i.e  +0.2 or -0.9 (with zero)
+	{
+		sprintf(LCDbuffer, "  %+03ld", sign * q);
+		BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_4);
+	}
+	else
+	{
+		sprintf(LCDbuffer, "%+5ld", sign * q);
+		BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_4);
+	}
 }
 
 void SHT45_LCD_temperature_display(void)
@@ -49,7 +77,7 @@ void SHT45_LCD_temperature_display(void)
 
 void SHT45_LCD_humidity_display(void)
 {
-	char LCDbuffer[10];
+	char LCDbuffer[15];
 	int16_t error = NO_ERROR;
 	int32_t temperature_milli_degC = 0;
 	int32_t humidity_milli_RH = 0;
@@ -64,9 +92,15 @@ void SHT45_LCD_humidity_display(void)
 	}
 	else
 	{
-		sprintf(LCDbuffer, "%ldH", humidity_milli_RH);
+		int32_t hum = humidity_milli_RH;
+		int32_t q = hum / 1000;
+		int32_t r = hum % 1000;
+		if (r > 500)
+			q++;
+		sprintf(LCDbuffer, "%ld HUM", q);
 		BSP_LCD_GLASS_Clear();
-		BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_2);
+		BSP_LCD_GLASS_DisplayString2((uint8_t*) LCDbuffer);
+		//BSP_LCD_GLASS_DisplayString_plus_one_dot((uint8_t*) LCDbuffer, LCD_DIGIT_POSITION_2);
 	}
 }
 
@@ -82,22 +116,22 @@ void SHT45_LCD_test(void)
 	sht4x_soft_reset();
 	HAL_Delay(20);
 
-	LCD_temp_disp(110000l);
+	LCD_temp_disp(110000l);	// should display 110.0
 	HAL_Delay(4000);
 
-	LCD_temp_disp(31786l);
+	LCD_temp_disp(31786l); // should display 31.8
 	HAL_Delay(4000);
 
-	LCD_temp_disp(-5471l);
+	LCD_temp_disp(-5471l); // should display -5.5
 	HAL_Delay(4000);
 
-	LCD_temp_disp(9098l);
+	LCD_temp_disp(9098l); // should display 9.1
 	HAL_Delay(4000);
 
-	LCD_temp_disp(46l);
+	LCD_temp_disp(46l); // should display 0.0
 	HAL_Delay(4000);
 
-	LCD_temp_disp(-52l);
+	LCD_temp_disp(-52l); // should display -0.1
 	HAL_Delay(4000);
 
 	error = sht4x_measure_high_precision(&temperature_milli_degC, &humidity_milli_RH);

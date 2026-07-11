@@ -47,7 +47,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MAX_INACTIVITY_TIME		30000
+#define MAX_INACTIVITY_TIME		60000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/

@@ -1,7 +1,7 @@
 /*
  * application.c
  *
- * 		L'HORLOGEUSE L476
+ * 		THERMOmètre L476
  *
  *  Created on: Mar 1, 2025
  *  14/03/25
@@ -59,13 +59,6 @@ uint32_t Get_dice(void)
 /**************************************************************************************************/
 void application(void)
 {
-	uint8_t bufSec[2];
-	uint8_t bufMin[2];
-	uint8_t bufHour[2];
-	uint8_t bufDate[2];
-	uint8_t bufMonth[2];
-	uint8_t bufYear[2];
-
 	if (HAL_GetTick() - time_counter2 > 50) // refresh LCD every 50ms
 	{
 		time_counter2 = HAL_GetTick();
@@ -137,10 +130,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			case UP_JOY_PIN:
 				AppStatus = STATE_DISPLAY_HUMIDITY;
 				break;
-
-//			case RIGHT_JOY_PIN:
-//				AppStatus = STATE_GET_DAY;
-//				break;
 			}
 			break;
 
@@ -156,10 +145,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			case UP_JOY_PIN:
 				AppStatus = STATE_DISPLAY_TEMPERATURE;
 				break;
-
-				//			case RIGHT_JOY_PIN:
-				//				AppStatus = STATE_GET_DAY;
-				//				break;
 			}
 			break;
 
@@ -219,6 +204,6 @@ uint8_t convert_BCD_to_ASCII(uint8_t bcd_data, BCDigit_TypeDef digit)
 		return (bcd_data & 0x0F) + 48;
 	}
 	return 42; /* character '*' if unknown */
-
 }
+
 /********************************************************************************************/

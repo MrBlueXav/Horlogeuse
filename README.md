@@ -3,7 +3,7 @@
  Simple thermometer for STM32L476 Discovery kit (STM32L476G-DISCO).  
  Displays temperature and humidity provided by external SHT45 captor (Adafruit 5665) connected on I2C_1 (CN2).  
  
- Automatic standby mode when 30 s inactivity.  
+ Automatic standby mode after 30 s inactivity.  
  
  Joystick :
  UP and DOWN -> scroll through different displays : temperature, humidity, ...  
@@ -17,7 +17,7 @@
   
  Displays are in French.  
  
- STM32CubeIDE v.1.19 configurable project with MX .ioc file.  
+ STM32CubeIDE v.2.22 configurable project with MX .ioc file.  
  
  Inspired by ST BSP project :  
  https://github.com/STMicroelectronics/STM32CubeL4/tree/master/Projects/32L476GDISCOVERY/Examples/BSP  
