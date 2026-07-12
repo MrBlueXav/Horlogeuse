@@ -229,17 +229,17 @@ const uint16_t FourteenSegmentASCII_STM32[113] = {
 	0x0181, /* SYMBOL2 */
 	0x05C9, /* SYMBOL3 */
 	0x5A14, /* SYMBOL4 >> idx 100*/
-	0xA500,
-	0xE885,
-	0xF0C0,
-	0xA181,
-	0x5F14,
-	0x0058,
-	0x0458,
-	0x5FC9,
-	0xEC14,
-	0x8088,/* >> idx 110 */
-	0x2041,
+	0xA500, /* SYMBOL5 */
+	0xE885, /* SYMBOL6 */
+	0xF0C0, /* SYMBOL7 */
+	0xA181, /* SYMBOL8 */
+	0x5F14, /* SYMBOL9 */
+	0x0058, /* SYMBOL10 */
+	0x0458, /* SYMBOL11 */
+	0x5FC9, /* SYMBOL12 */
+	0xEC14, /* SYMBOL13 */
+	0x8088, /* SYMBOL14 */ /* >> idx 110 */
+	0x2041, /* SYMBOL15 */
 	0xA081, /* SYMBOL16 */
 };
 /*----------------------------------------------------------------------------*/

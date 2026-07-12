@@ -5,16 +5,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.c \
 ../Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.c \
 ../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.c \
 ../Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.c 
 
 OBJS += \
+./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.o \
 ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.o \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o 
 
 C_DEPS += \
+./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.d \
 ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.d \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d \
 ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d 
@@ -27,7 +30,7 @@ Drivers/BSP/STM32L476G-Discovery/%.o Drivers/BSP/STM32L476G-Discovery/%.su Drive
 clean: clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery
 
 clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery:
-	-$(RM) ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.cyclo ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.d ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.o ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.su
+	-$(RM) ./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.cyclo ./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.d ./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.o ./Drivers/BSP/STM32L476G-Discovery/14-Segment-ASCII_HEX.su ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.cyclo ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.d ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.o ./Drivers/BSP/STM32L476G-Discovery/STM32L476_DK_glass_lcd_extension.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery.su ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.cyclo ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.d ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.o ./Drivers/BSP/STM32L476G-Discovery/stm32l476g_discovery_glass_lcd.su
 
 .PHONY: clean-Drivers-2f-BSP-2f-STM32L476G-2d-Discovery
 
