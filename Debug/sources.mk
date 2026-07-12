@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (13.3.rel1)
+# Toolchain: GNU Tools for STM32 (14.3.rel1)
 ################################################################################
 
 ELF_SRCS := 
@@ -30,4 +30,5 @@ Drivers/BSP/Components/lsm303c \
 Drivers/BSP/Components/mfxstm32l152 \
 Drivers/BSP/STM32L476G-Discovery \
 Drivers/STM32L4xx_HAL_Driver/Src \
+Drivers/Sensirion_SHT45 \
 

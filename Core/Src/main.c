@@ -9,7 +9,7 @@
  *
  * This is a simple temperature and humidity viewer, for STM32L476 Discovery kit (STM32L476G-DISCO).
  * Displays temperature and humidity provided by external SHT45 captor (Adafruit 5665) connected on I2C_1 (CN2).
- * Automatic standby mode when 30 s inactivity.
+ * Automatic standby mode possible when 30 s inactivity.
  *
  * Copyright (c) 2026 Xavier Halgand & STMicroelectronics.
  * All rights reserved.
@@ -47,7 +47,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MAX_INACTIVITY_TIME		60000
+#define MAX_INACTIVITY_TIME		30000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,6 +63,7 @@ __IO uint32_t AppStatus = STATE_START;
 __IO uint32_t inactivity_time = 0;
 __IO uint32_t time_counter;
 __IO uint32_t time_counter2;
+__IO uint8_t eco_on = 0;
 
 FlagStatus JoyInitialized = RESET;
 FlagStatus IddInitialized = RESET;
@@ -117,7 +118,7 @@ int main(void)
   MX_LCD_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
-  MX_RNG_Init();
+  //MX_RNG_Init();
   /* USER CODE BEGIN 2 */
 
 	/*##--Configure minimum hardware resources at boot ########################*/
@@ -147,23 +148,13 @@ int main(void)
 		ReturnFromStandbyShutdown = SET;
 	}
 
-	MX_RTC_Init();
+	//MX_RTC_Init();
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0, GPIO_PIN_SET);
 	HAL_Delay(100);
 	sensirion_i2c_hal_init(&hi2c1);
 	sht4x_init(SHT40_I2C_ADDR_44);
 	sht4x_soft_reset();
 	HAL_Delay(20);
-
-	/*------------------------------------------------------------------------------*/
-//	if (ReturnFromStandbyShutdown == SET)
-//	{
-//		Display_WakeUp_msg();
-//	}
-//	else
-//	{
-//		Display_First_Start_msg();
-//	}
 
 	//SHT45_LCD_test();
 	//Dot_colon_LCD_test();
@@ -174,7 +165,7 @@ int main(void)
 	inactivity_time = 0; // increased in systick interrupt handler (stm32....it.c)
 	AppStatus = STATE_DISPLAY_TEMPERATURE;
 
-	while (inactivity_time < MAX_INACTIVITY_TIME)
+	while (inactivity_time * eco_on < MAX_INACTIVITY_TIME)
 	{
 		application();
 	}

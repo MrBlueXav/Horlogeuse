@@ -3,9 +3,8 @@
  *
  * 		THERMOmètre L476
  *
- *  Created on: Mar 1, 2025
- *  14/03/25
- *      Author: Xavier Halgand
+ *  July 2026
+ *  Author: Xavier Halgand
  */
 
 /* Includes ------------------------------------------------------------------*/
@@ -17,44 +16,22 @@
 /********************************************* Global variables *****************************************************/
 extern RTC_HandleTypeDef hrtc;
 extern RNG_HandleTypeDef hrng;
-extern volatile uint8_t bLCDGlass_KeyPressed;
+extern __IO uint8_t bLCDGlass_KeyPressed;
 extern __IO uint32_t AppStatus;
 extern __IO uint32_t inactivity_time;
 extern __IO uint32_t time_counter;
 extern __IO uint32_t time_counter2;
+extern __IO uint8_t eco_on;
 
 volatile bool displayMustBeUpdated = true;
 
-const char *weekDay[] =
-{ "LUNDI", "MARDI", "MERCRE", "JEUDI", "VENDRE", "SAMEDI", "DIMAN" }; // in french
-uint8_t weekDayNbr;
-RTC_TimeTypeDef theTime;
-RTC_TimeTypeDef binaryTime;
-RTC_DateTypeDef theDate;
-RTC_DateTypeDef binaryDate;
-
-uint32_t diceResult = 0;
-uint8_t diceResultPosition = 0;
-volatile bool diceDisplayMustBeUpdated = true;
-
-/*------------------------------------------------------------------------------------------------*/
-void Display_dice_intro(void)
-{
-	BSP_LCD_GLASS_Clear();
-	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     *DICE*", 1, SCROLL_SPEED_MEDIUM);
-}
-
-/*------------------------------------------------------------------------------------------------*/
-uint32_t Get_dice(void)
-{
-	uint32_t aRandom32bit = 0;
-	if (HAL_RNG_GenerateRandomNumber(&hrng, &aRandom32bit) != HAL_OK)
-	{
-		/* Random number generation error */
-		Error_Handler();
-	}
-	return (aRandom32bit % 6 + 1);
-}
+//const char *weekDay[] =
+//{ "LUNDI", "MARDI", "MERCRE", "JEUDI", "VENDRE", "SAMEDI", "DIMAN" }; // in french
+//uint8_t weekDayNbr;
+//RTC_TimeTypeDef theTime;
+//RTC_TimeTypeDef binaryTime;
+//RTC_DateTypeDef theDate;
+//RTC_DateTypeDef binaryDate;
 
 /**************************************************************************************************/
 void application(void)
@@ -69,7 +46,7 @@ void application(void)
 	{
 	/*-------------------------------------------------------------------------------------*/
 
-		/*-------------------------------------------------------------------------------------*/
+	/*-------------------------------------------------------------------------------------*/
 	case STATE_DISPLAY_TEMPERATURE:
 
 		if (HAL_GetTick() - time_counter > 1000)
@@ -90,7 +67,6 @@ void application(void)
 			SHT45_LCD_humidity_display();
 		}
 		break;
-
 
 		/*-------------------------------------------------------------------------------------*/
 	}
@@ -117,7 +93,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			bLCDGlass_KeyPressed = 0x01; // to skip scrolling messages at start
 			break;
 
-
 			/*-------------------------------------------------------------------------------------*/
 		case STATE_DISPLAY_TEMPERATURE:
 
@@ -130,7 +105,22 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 			case UP_JOY_PIN:
 				AppStatus = STATE_DISPLAY_HUMIDITY;
 				break;
+
+			case RIGHT_JOY_PIN:
+				eco_on = 1;
+				BSP_LCD_GLASS_Clear();
+				BSP_LCD_GLASS_DisplayString2((uint8_t*) "Eco ON");
+				//HAL_Delay(2000); // will block !
+				break;
+
+			case LEFT_JOY_PIN:
+				eco_on = 0;
+				BSP_LCD_GLASS_Clear();
+				BSP_LCD_GLASS_DisplayString2((uint8_t*) "EcoOFF");
+				//HAL_Delay(2000); //will block !
+				break;
 			}
+
 			break;
 
 			/*-------------------------------------------------------------------------------------*/
@@ -150,42 +140,6 @@ void application_JOY_callback(uint16_t GPIO_Pin)
 
 		}
 	}
-}
-
-/**
- * @brief  Display first start messages
- * @retval None
- */
-void Display_First_Start_msg(void)
-{
-	/* Clear the LCD */
-	BSP_LCD_GLASS_Clear();
-
-	/* Display LCD messages */
-	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     *HORLOGEUSE*", 1, SCROLL_SPEED_MEDIUM);
-	HAL_Delay(50);
-	BSP_LCD_GLASS_Clear();
-	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     Par Xavier HALGAND 2025", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_ScrollSentence2((uint8_t*) "     Mettre a l'heure SVP", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_Clear();
-}
-
-/**
- * @brief  Display wake up message
- * @retval None
- */
-void Display_WakeUp_msg(void)
-{
-	/* Clear the LCD */
-	BSP_LCD_GLASS_Clear();
-
-	/* Display LCD messages */
-
-	//BSP_LCD_GLASS_ScrollSentence((uint8_t*) "     JE ME REVEILLE", 1, SCROLL_SPEED_MEDIUM);
-	BSP_LCD_GLASS_DisplayString2((uint8_t*) "Coucou");
-	HAL_Delay(2000);
-
-	BSP_LCD_GLASS_Clear();
 }
 
 /**
